@@ -1,7 +1,7 @@
 {
-  "name": "hospital-clinic-management",
+  "name": "medcore-hospital-management-system",
   "version": "1.0.0",
-  "description": "Comprehensive Hospital Clinic Management System",
+  "description": "Comprehensive Hospital Clinic Management System – MedCore HMS",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,6 +10,7 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed.ts"
   },
