@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/hospital_db
+      DIRECT_URL: postgresql://postgres:postgres@db:5432/hospital_db
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: change-this-in-production-please
       NODE_ENV: production
