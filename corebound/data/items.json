@@ -1,0 +1,302 @@
+[
+  {
+    "id": "dirt",
+    "display_name": "Dirt",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Loose soil found near the surface.",
+    "color": { "r": 0.55, "g": 0.37, "b": 0.20, "a": 1.0 }
+  },
+  {
+    "id": "stone",
+    "display_name": "Stone",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Common rock found throughout the world.",
+    "color": { "r": 0.50, "g": 0.50, "b": 0.50, "a": 1.0 }
+  },
+  {
+    "id": "wood",
+    "display_name": "Wood",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.1,
+    "description": "Timber from surface trees. Burns slowly.",
+    "color": { "r": 0.55, "g": 0.35, "b": 0.18, "a": 1.0 }
+  },
+  {
+    "id": "sand",
+    "display_name": "Sand",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Fine granular material. Can be smelted into glass.",
+    "color": { "r": 0.90, "g": 0.85, "b": 0.55, "a": 1.0 }
+  },
+  {
+    "id": "clay",
+    "display_name": "Clay",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Wet earthy material. Hardens into brick when fired.",
+    "color": { "r": 0.70, "g": 0.52, "b": 0.42, "a": 1.0 }
+  },
+  {
+    "id": "coal",
+    "display_name": "Coal",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.5,
+    "description": "A carbon-rich mineral that burns well.",
+    "color": { "r": 0.28, "g": 0.28, "b": 0.28, "a": 1.0 }
+  },
+  {
+    "id": "copper_ore",
+    "display_name": "Copper Ore",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Raw copper ore. Smelt into copper plates.",
+    "color": { "r": 0.72, "g": 0.45, "b": 0.20, "a": 1.0 }
+  },
+  {
+    "id": "iron_ore",
+    "display_name": "Iron Ore",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Raw iron ore. Smelt into iron plates.",
+    "color": { "r": 0.60, "g": 0.40, "b": 0.35, "a": 1.0 }
+  },
+  {
+    "id": "tin_ore",
+    "display_name": "Tin Ore",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Raw tin ore. Smelt into tin plates.",
+    "color": { "r": 0.55, "g": 0.62, "b": 0.68, "a": 1.0 }
+  },
+  {
+    "id": "silver_ore",
+    "display_name": "Silver Ore",
+    "category": "resource",
+    "tier": 2,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Raw silver ore found in deeper rock layers.",
+    "color": { "r": 0.75, "g": 0.75, "b": 0.80, "a": 1.0 }
+  },
+  {
+    "id": "gold_ore",
+    "display_name": "Gold Ore",
+    "category": "resource",
+    "tier": 2,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Precious gold ore found deep underground.",
+    "color": { "r": 0.90, "g": 0.75, "b": 0.10, "a": 1.0 }
+  },
+  {
+    "id": "aluminum_ore",
+    "display_name": "Aluminum Ore",
+    "category": "resource",
+    "tier": 2,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Lightweight metal ore found at mid-depths.",
+    "color": { "r": 0.70, "g": 0.78, "b": 0.82, "a": 1.0 }
+  },
+  {
+    "id": "crystal_shard",
+    "display_name": "Crystal Shard",
+    "category": "resource",
+    "tier": 3,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "A luminous shard from the crystal layer. Used in advanced components.",
+    "color": { "r": 0.40, "g": 0.80, "b": 0.95, "a": 1.0 }
+  },
+  {
+    "id": "obsidian",
+    "display_name": "Obsidian",
+    "category": "resource",
+    "tier": 3,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Extremely hard volcanic glass. Resists heat.",
+    "color": { "r": 0.10, "g": 0.08, "b": 0.12, "a": 1.0 }
+  },
+  {
+    "id": "magma_ore",
+    "display_name": "Magma Ore",
+    "category": "resource",
+    "tier": 4,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Ore saturated with magma energy. Extremely hot.",
+    "color": { "r": 0.85, "g": 0.25, "b": 0.05, "a": 1.0 }
+  },
+  {
+    "id": "core_fragment",
+    "display_name": "Core Fragment",
+    "category": "resource",
+    "tier": 5,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "A fragment of the world's core. Dense with unknown energy.",
+    "color": { "r": 0.95, "g": 0.60, "b": 0.95, "a": 1.0 }
+  },
+  {
+    "id": "copper_plate",
+    "display_name": "Copper Plate",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Smelted copper sheet. Used in wiring and basic components.",
+    "color": { "r": 0.80, "g": 0.50, "b": 0.20, "a": 1.0 }
+  },
+  {
+    "id": "iron_plate",
+    "display_name": "Iron Plate",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Smelted iron sheet. Versatile structural material.",
+    "color": { "r": 0.65, "g": 0.45, "b": 0.40, "a": 1.0 }
+  },
+  {
+    "id": "tin_plate",
+    "display_name": "Tin Plate",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Smelted tin sheet. Lightweight and corrosion-resistant.",
+    "color": { "r": 0.60, "g": 0.68, "b": 0.72, "a": 1.0 }
+  },
+  {
+    "id": "steel_plate",
+    "display_name": "Steel Plate",
+    "category": "resource",
+    "tier": 2,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Alloyed iron and carbon. Stronger than pure iron.",
+    "color": { "r": 0.45, "g": 0.48, "b": 0.52, "a": 1.0 }
+  },
+  {
+    "id": "charcoal",
+    "display_name": "Charcoal",
+    "category": "resource",
+    "tier": 0,
+    "stack_max": 500,
+    "fuel_value": 0.3,
+    "description": "Wood that has been charred. Burns more efficiently than raw wood.",
+    "color": { "r": 0.22, "g": 0.20, "b": 0.18, "a": 1.0 }
+  },
+  {
+    "id": "glass",
+    "display_name": "Glass",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Transparent material smelted from sand.",
+    "color": { "r": 0.85, "g": 0.95, "b": 1.0, "a": 0.7 }
+  },
+  {
+    "id": "brick",
+    "display_name": "Brick",
+    "category": "resource",
+    "tier": 1,
+    "stack_max": 500,
+    "fuel_value": 0.0,
+    "description": "Fired clay brick. Sturdy building material.",
+    "color": { "r": 0.75, "g": 0.38, "b": 0.25, "a": 1.0 }
+  },
+  {
+    "id": "gear",
+    "display_name": "Gear",
+    "category": "component",
+    "tier": 1,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "A toothed iron gear. Core mechanical component.",
+    "color": { "r": 0.55, "g": 0.55, "b": 0.58, "a": 1.0 }
+  },
+  {
+    "id": "copper_wire",
+    "display_name": "Copper Wire",
+    "category": "component",
+    "tier": 1,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Drawn copper wire. Conducts electricity.",
+    "color": { "r": 0.85, "g": 0.55, "b": 0.15, "a": 1.0 }
+  },
+  {
+    "id": "circuit_board",
+    "display_name": "Circuit Board",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "A basic printed circuit board for electronic machines.",
+    "color": { "r": 0.15, "g": 0.55, "b": 0.25, "a": 1.0 }
+  },
+  {
+    "id": "battery",
+    "display_name": "Battery",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Stores electrical energy for portable devices.",
+    "color": { "r": 0.20, "g": 0.30, "b": 0.65, "a": 1.0 }
+  },
+  {
+    "id": "wooden_pickaxe",
+    "display_name": "Wooden Pickaxe",
+    "category": "tool",
+    "tier": 0,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "A primitive pickaxe. Can mine dirt and soft stone.",
+    "color": { "r": 0.60, "g": 0.40, "b": 0.20, "a": 1.0 }
+  },
+  {
+    "id": "stone_pickaxe",
+    "display_name": "Stone Pickaxe",
+    "category": "tool",
+    "tier": 1,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "A stone-headed pickaxe. Mines most surface ores.",
+    "color": { "r": 0.50, "g": 0.50, "b": 0.50, "a": 1.0 }
+  },
+  {
+    "id": "iron_pickaxe",
+    "display_name": "Iron Pickaxe",
+    "category": "tool",
+    "tier": 2,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "An iron pickaxe. Efficient against harder rock layers.",
+    "color": { "r": 0.65, "g": 0.45, "b": 0.40, "a": 1.0 }
+  }
+]

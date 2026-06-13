@@ -1,0 +1,178 @@
+[
+  {
+    "id": "charcoal",
+    "display_name": "Charcoal",
+    "output_item": "charcoal",
+    "output_count": 1,
+    "inputs": [
+      { "item": "wood", "count": 2 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "copper_plate",
+    "display_name": "Copper Plate",
+    "output_item": "copper_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "copper_ore", "count": 2 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "iron_plate",
+    "display_name": "Iron Plate",
+    "output_item": "iron_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_ore", "count": 2 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "tin_plate",
+    "display_name": "Tin Plate",
+    "output_item": "tin_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "tin_ore", "count": 2 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "steel_plate",
+    "display_name": "Steel Plate",
+    "output_item": "steel_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 3 },
+      { "item": "coal", "count": 2 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 4.0,
+    "tech_required": ""
+  },
+  {
+    "id": "glass",
+    "display_name": "Glass",
+    "output_item": "glass",
+    "output_count": 1,
+    "inputs": [
+      { "item": "sand", "count": 4 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "brick",
+    "display_name": "Brick",
+    "output_item": "brick",
+    "output_count": 4,
+    "inputs": [
+      { "item": "clay", "count": 4 }
+    ],
+    "machine_type": "furnace",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "gear",
+    "display_name": "Gear",
+    "output_item": "gear",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 1.5,
+    "tech_required": ""
+  },
+  {
+    "id": "copper_wire",
+    "display_name": "Copper Wire",
+    "output_item": "copper_wire",
+    "output_count": 2,
+    "inputs": [
+      { "item": "copper_plate", "count": 1 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 1.0,
+    "tech_required": ""
+  },
+  {
+    "id": "circuit_board",
+    "display_name": "Circuit Board",
+    "output_item": "circuit_board",
+    "output_count": 1,
+    "inputs": [
+      { "item": "copper_wire", "count": 3 },
+      { "item": "glass", "count": 1 },
+      { "item": "iron_plate", "count": 1 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "battery",
+    "display_name": "Battery",
+    "output_item": "battery",
+    "output_count": 1,
+    "inputs": [
+      { "item": "copper_plate", "count": 2 },
+      { "item": "iron_plate", "count": 1 },
+      { "item": "coal", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "wooden_pickaxe",
+    "display_name": "Wooden Pickaxe",
+    "output_item": "wooden_pickaxe",
+    "output_count": 1,
+    "inputs": [
+      { "item": "wood", "count": 3 },
+      { "item": "stone", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "stone_pickaxe",
+    "display_name": "Stone Pickaxe",
+    "output_item": "stone_pickaxe",
+    "output_count": 1,
+    "inputs": [
+      { "item": "stone", "count": 3 },
+      { "item": "wood", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "iron_pickaxe",
+    "display_name": "Iron Pickaxe",
+    "output_item": "iron_pickaxe",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 3 },
+      { "item": "wood", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 3.0,
+    "tech_required": ""
+  }
+]
