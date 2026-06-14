@@ -1,0 +1,14 @@
+# Godot-generated cache — never commit
+.godot/
+
+# Export artifacts
+*.apk
+*.aab
+*.ipa
+
+# Android keystore (keep secure, outside repo)
+*.keystore
+*.jks
+
+# macOS
+.DS_Store
