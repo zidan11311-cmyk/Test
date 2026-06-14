@@ -1,18 +1,21 @@
 class_name ChunkData
 
+const BlockData = preload("res://scripts/core/BlockData.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 var coord: Vector2i
 var blocks: Dictionary = {}       # Vector2i (local tile pos) -> BlockData
 var machines: Dictionary = {}     # Vector2i (local tile pos) -> Dictionary (machine state)
 var is_generated: bool = false
-var last_tick_time: float = 0.0   # real-time timestamp when chunk was last active
+var last_tick_time: float = 0.0
 
 func _init(p_coord: Vector2i) -> void:
 	coord = p_coord
 
-func get_block(local: Vector2i) -> BlockData:
+func get_block(local: Vector2i):
 	return blocks.get(local, null)
 
-func set_block(local: Vector2i, data: BlockData) -> void:
+func set_block(local: Vector2i, data) -> void:
 	if data == null or data.is_air():
 		blocks.erase(local)
 	else:
@@ -40,12 +43,12 @@ func serialize() -> Dictionary:
 		"last_tick": last_tick_time,
 	}
 
-static func deserialize(d: Dictionary) -> ChunkData:
+static func deserialize(d: Dictionary) -> Object:
 	var c_dict: Dictionary = d["coord"]
-	var chunk := ChunkData.new(Vector2i(c_dict["x"], c_dict["y"]))
+	var chunk = load("res://scripts/core/ChunkData.gd").new(Vector2i(c_dict["x"], c_dict["y"]))
 	var bd: Dictionary = d.get("blocks", {})
 	for key in bd:
-		var parts := key.split(",")
+		var parts: PackedStringArray = key.split(",")
 		var local := Vector2i(int(parts[0]), int(parts[1]))
 		chunk.blocks[local] = BlockData.deserialize(bd[key])
 	chunk.machines = d.get("machines", {})

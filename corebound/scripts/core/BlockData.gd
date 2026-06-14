@@ -1,5 +1,7 @@
 class_name BlockData
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 var tile_id: String
 var hp: int
 var max_hp: int
@@ -20,8 +22,8 @@ func get_drop() -> Dictionary:
 func serialize() -> Dictionary:
 	return { "t": tile_id, "h": hp, "m": metadata }
 
-static func deserialize(d: Dictionary) -> BlockData:
-	var b := BlockData.new(d["t"])
+static func deserialize(d: Dictionary) -> Object:
+	var b = load("res://scripts/core/BlockData.gd").new(d["t"])
 	b.hp = d.get("h", b.max_hp)
 	b.metadata = d.get("m", {})
 	return b

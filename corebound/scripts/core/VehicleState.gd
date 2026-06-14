@@ -57,8 +57,8 @@ func serialize() -> Dictionary:
 		"custom": custom,
 	}
 
-static func deserialize(d: Dictionary) -> VehicleState:
-	var vs := VehicleState.new()
+static func deserialize(d: Dictionary) -> Object:
+	var vs = load("res://scripts/core/VehicleState.gd").new()
 	vs.vehicle_type = d.get("type", VehicleType.MINING_CART)
 	vs.upgrade_level = d.get("upgrade", 1)
 	var pos: Dictionary = d.get("pos", { "x": 0, "y": 0 })
@@ -74,11 +74,11 @@ static func deserialize(d: Dictionary) -> VehicleState:
 	return vs
 
 func add_cargo(item_id: String, count: int) -> int:
-	var total := 0
+	var total: int = 0
 	for slot in cargo:
-		total += slot["count"]
-	var space := max_cargo - total
-	var add := min(count, space)
+		total += slot["count"] as int
+	var space: int = max_cargo - total
+	var add: int = min(count, space)
 	if add <= 0:
 		return count  # all leftover
 	# Fill existing stack

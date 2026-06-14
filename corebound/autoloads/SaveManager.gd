@@ -1,5 +1,8 @@
 extends Node
 
+const PlayerState = preload("res://scripts/core/PlayerState.gd")
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+
 signal save_started()
 signal save_completed()
 signal load_started()
@@ -67,7 +70,7 @@ func load_game(slot: int) -> void:
 	if file == null:
 		emit_signal("load_failed", "Cannot read save file")
 		return
-	var text := file.read_as_text()
+	var text: String = file.get_as_text()
 	file.close()
 
 	var data = JSON.parse_string(text)
@@ -77,7 +80,7 @@ func load_game(slot: int) -> void:
 
 	WorldManager.world_seed = data.get("world_seed", randi())
 
-	var ps := PlayerState.deserialize(data.get("player", {}))
+	var ps: PlayerState = PlayerState.deserialize(data.get("player", {}))
 	InventoryManager.initialize(ps)
 
 	var chunks_data: Dictionary = data.get("chunks", {})
@@ -86,7 +89,7 @@ func load_game(slot: int) -> void:
 	var vehicles_data: Array = data.get("vehicles", [])
 	WorldManager.vehicles.clear()
 	for vd in vehicles_data:
-		var vs := VehicleState.deserialize(vd)
+		var vs: VehicleState = VehicleState.deserialize(vd) as VehicleState
 		WorldManager.spawn_vehicle(vs)
 
 	emit_signal("load_completed")
@@ -105,7 +108,7 @@ func list_slots() -> Array:
 		if file == null:
 			result.append({ "slot": slot, "exists": false })
 			continue
-		var data = JSON.parse_string(file.read_as_text())
+		var data = JSON.parse_string(file.get_as_text())
 		file.close()
 		if data == null:
 			result.append({ "slot": slot, "exists": false })

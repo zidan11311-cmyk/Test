@@ -1,5 +1,7 @@
 class_name DrillVehicle
-extends BaseVehicle
+extends "res://scenes/vehicles/BaseVehicle.gd"
+
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
 
 var GRAVITY := Constants.PLAYER_GRAVITY
 const JUMP_VEL := -380.0
@@ -146,8 +148,8 @@ func _drain_fuel(delta: float) -> void:
 
 func _update_visuals() -> void:
 	if _fuel_bar:
-		var ratio := clamp(vehicle_state.fuel / max(vehicle_state.max_fuel, 1.0), 0.0, 1.0)
+		var ratio: float = clamp(vehicle_state.fuel / max(vehicle_state.max_fuel, 1.0), 0.0, 1.0)
 		_fuel_bar.size.x = Constants.TILE_SIZE * 1.5 * ratio
 	if _hp_bar:
-		var ratio := clamp(float(vehicle_state.hp) / float(max(vehicle_state.max_hp, 1)), 0.0, 1.0)
+		var ratio: float = clamp(float(vehicle_state.hp) / float(max(vehicle_state.max_hp, 1)), 0.0, 1.0)
 		_hp_bar.size.x = Constants.TILE_SIZE * 1.5 * ratio

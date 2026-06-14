@@ -1,5 +1,8 @@
 extends Node2D
 
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+
 @onready var tilemap: TileMapLayer = $TileMapLayer
 
 var _machine_nodes: Dictionary = {}  # Vector2i world_tile -> MachineNode

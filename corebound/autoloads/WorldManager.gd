@@ -1,5 +1,14 @@
 extends Node
 
+const BlockData = preload("res://scripts/core/BlockData.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+const ProceduralGen = preload("res://scripts/systems/ProceduralGen.gd")
+const TileSetGenerator = preload("res://scripts/systems/TileSetGenerator.gd")
+
 signal chunk_loaded(coord: Vector2i)
 signal chunk_unloaded(coord: Vector2i)
 signal block_changed(world_tile: Vector2i, new_tile_id: String)
@@ -149,7 +158,7 @@ func get_block_at_pixel(pixel: Vector2) -> Vector2i:
 
 func load_from_save(chunks_data: Dictionary) -> void:
 	for key in chunks_data:
-		var chunk := ChunkData.deserialize(chunks_data[key])
+		var chunk: ChunkData = ChunkData.deserialize(chunks_data[key]) as ChunkData
 		loaded_chunks[chunk.coord] = chunk
 
 func serialize_loaded_chunks() -> Dictionary:
@@ -170,7 +179,7 @@ func serialize_vehicles() -> Array:
 func load_vehicles_from_save(vehicles_data: Array) -> void:
 	vehicles.clear()
 	for d in vehicles_data:
-		var vs := VehicleState.deserialize(d)
+		var vs: VehicleState = VehicleState.deserialize(d) as VehicleState
 		vehicles.append(vs)
 		emit_signal("vehicle_spawned", null, vs)  # World.gd will instantiate the scene
 

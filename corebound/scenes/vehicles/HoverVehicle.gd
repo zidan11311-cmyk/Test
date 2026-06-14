@@ -1,5 +1,5 @@
 class_name HoverVehicle
-extends BaseVehicle
+extends "res://scenes/vehicles/BaseVehicle.gd"
 
 var HOVER_HEIGHT := 2.5 * Constants.TILE_SIZE   # pixels above ground
 const HOVER_SPEED_VERT := 180.0                    # px/s for hover correction
@@ -129,8 +129,8 @@ func _update_visuals() -> void:
 	_thruster_r.color = thrust_color
 
 	if _fuel_bar:
-		var ratio := clamp(vehicle_state.fuel / max(vehicle_state.max_fuel, 1.0), 0.0, 1.0)
+		var ratio: float = clamp(vehicle_state.fuel / max(vehicle_state.max_fuel, 1.0), 0.0, 1.0)
 		_fuel_bar.size.x = Constants.TILE_SIZE * 2.0 * ratio
 	if _hp_bar:
-		var ratio := clamp(float(vehicle_state.hp) / float(max(vehicle_state.max_hp, 1)), 0.0, 1.0)
+		var ratio: float = clamp(float(vehicle_state.hp) / float(max(vehicle_state.max_hp, 1)), 0.0, 1.0)
 		_hp_bar.size.x = Constants.TILE_SIZE * 2.0 * ratio

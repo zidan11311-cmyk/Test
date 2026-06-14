@@ -1,5 +1,11 @@
 extends Node
 
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+const BeltProcessor = preload("res://scripts/systems/BeltProcessor.gd")
+const MachineProcessor = preload("res://scripts/systems/MachineProcessor.gd")
+
 signal tick_completed
 signal machine_updated(world_tile: Vector2i, ms: MachineState)
 
@@ -37,10 +43,10 @@ func _tick_machines(dt: float) -> void:
 		var chunk := WorldManager.loaded_chunks.get(coord) as ChunkData
 		if chunk == null:
 			continue
-		var origin := coord * Constants.CHUNK_SIZE
+		var origin: Vector2i = coord * Constants.CHUNK_SIZE
 		for local in chunk.machines:
 			var ms: MachineState = chunk.machines[local]
-			var world_tile := origin + local
+			var world_tile: Vector2i = origin + local
 			MachineProcessor.process_machine(ms, world_tile, dt)
 
 func _push_machine_outputs() -> void:
@@ -48,13 +54,13 @@ func _push_machine_outputs() -> void:
 		var chunk := WorldManager.loaded_chunks.get(coord) as ChunkData
 		if chunk == null:
 			continue
-		var origin := coord * Constants.CHUNK_SIZE
+		var origin: Vector2i = coord * Constants.CHUNK_SIZE
 		for local in chunk.machines:
 			var ms: MachineState = chunk.machines[local]
 			# Belts and chests have no output buffer to drain
 			if ms.machine_type in ["conveyor_belt", "fast_belt", "wooden_chest", "iron_chest"]:
 				continue
-			var world_tile := origin + local
+			var world_tile: Vector2i = origin + local
 			BeltProcessor.push_machine_output(world_tile, ms, 0)
 
 func get_tick_count() -> int:

@@ -1,5 +1,11 @@
 extends Node
 
+const PowerNetwork = preload("res://scripts/systems/PowerNetwork.gd")
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 signal power_updated(chunk_coord: Vector2i, ratio: float)
 
 var _networks: Dictionary = {}   # Vector2i chunk_coord -> PowerNetwork
@@ -57,10 +63,10 @@ func rebuild_chunk(coord: Vector2i) -> void:
 	var chunk := WorldManager.loaded_chunks.get(coord) as ChunkData
 	if chunk == null:
 		return
-	var origin := coord * Constants.CHUNK_SIZE
+	var origin: Vector2i = coord * Constants.CHUNK_SIZE
 	for local in chunk.machines:
 		var ms: MachineState = chunk.machines[local]
-		var world_tile := origin + local
+		var world_tile: Vector2i = origin + local
 		register_machine(world_tile, ms)
 
 func get_ratio(chunk_coord: Vector2i) -> float:

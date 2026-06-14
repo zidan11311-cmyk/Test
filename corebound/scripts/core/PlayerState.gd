@@ -3,7 +3,7 @@ class_name PlayerState
 var hp: int = 100
 var max_hp: int = 100
 var heat_resistance: float = 0.0
-var position: Vector2 = Vector2(256 * 32, 5 * 32)   # start near surface center
+var position: Vector2 = Vector2(256 * 32, 5 * 32)
 var inventory: Array = []    # 40 slots: { "item": String, "count": int } or {}
 var hotbar_selection: int = 0
 var tech_unlocked: Array = []
@@ -16,8 +16,8 @@ var depth_reached_tiles: float = 0.0
 var playtime_seconds: float = 0.0
 
 func _init() -> void:
-	inventory.resize(Constants.INVENTORY_SIZE)
-	for i in Constants.INVENTORY_SIZE:
+	inventory.resize(40)
+	for i in 40:
 		inventory[i] = {}
 
 func serialize() -> Dictionary:
@@ -35,12 +35,12 @@ func serialize() -> Dictionary:
 		"playtime": playtime_seconds,
 	}
 
-static func deserialize(d: Dictionary) -> PlayerState:
-	var ps := PlayerState.new()
+static func deserialize(d: Dictionary) -> Object:
+	var ps = load("res://scripts/core/PlayerState.gd").new()
 	ps.hp = d.get("hp", 100)
 	ps.max_hp = d.get("max_hp", 100)
 	ps.heat_resistance = d.get("heat_resistance", 0.0)
-	var pos: Dictionary = d.get("position", { "x": 256 * 32, "y": 5 * 32 })
+	var pos = d.get("position", { "x": 256 * 32, "y": 5 * 32 })
 	ps.position = Vector2(pos["x"], pos["y"])
 	ps.inventory = d.get("inventory", ps.inventory)
 	ps.hotbar_selection = d.get("hotbar_selection", 0)

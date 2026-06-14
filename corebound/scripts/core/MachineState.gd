@@ -47,23 +47,23 @@ func add_to_input(slot: int, item_id: String, count: int, max_stack: int = 50) -
 	# Returns leftover
 	var cur := get_input(slot)
 	if cur.is_empty():
-		var add := min(count, max_stack)
+		var add: int = min(count, max_stack)
 		set_input(slot, item_id, add)
 		return count - add
 	if cur["item"] != item_id:
 		return count
-	var space := max_stack - cur["count"]
-	var add := min(count, space)
+	var space: int = max_stack - (cur["count"] as int)
+	var add: int = min(count, space)
 	if add > 0:
-		set_input(slot, item_id, cur["count"] + add)
+		set_input(slot, item_id, (cur["count"] as int) + add)
 	return count - add
 
 func take_from_output(slot: int, count: int) -> Dictionary:
 	var cur := get_output(slot)
 	if cur.is_empty(): return {}
-	var take := min(count, cur["count"])
+	var take: int = min(count, cur["count"] as int)
 	var item_id: String = cur["item"]
-	var remaining := cur["count"] - take
+	var remaining: int = (cur["count"] as int) - take
 	if remaining <= 0:
 		output_slots[slot] = {}
 	else:
@@ -84,8 +84,8 @@ func serialize() -> Dictionary:
 		"custom": custom,
 	}
 
-static func deserialize(d: Dictionary) -> MachineState:
-	var ms := MachineState.new(d.get("type", ""), d.get("dir", 0))
+static func deserialize(d: Dictionary) -> Object:
+	var ms = load("res://scripts/core/MachineState.gd").new(d.get("type", ""), d.get("dir", 0))
 	ms.input_slots = d.get("in", [{}])
 	ms.output_slots = d.get("out", [{}])
 	ms.fuel_kwh = d.get("fuel", 0.0)

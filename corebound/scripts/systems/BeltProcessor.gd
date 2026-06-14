@@ -1,5 +1,10 @@
 class_name BeltProcessor
 
+const Constants = preload("res://scripts/core/Constants.gd")
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+
 # Direction vectors: East, South, West, North
 const DIR_VECTORS := [Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -1)]
 
@@ -13,7 +18,7 @@ static func tick_belts(active_chunks: Array, dt: float) -> void:
 		for local in chunk.machines:
 			var ms: MachineState = chunk.machines[local]
 			if ms.machine_type in ["conveyor_belt", "fast_belt"]:
-				var world_tile := coord * Constants.CHUNK_SIZE + local
+				var world_tile: Vector2i = coord * Constants.CHUNK_SIZE + local
 				belts.append({ "tile": world_tile, "ms": ms })
 
 	# Tick each belt segment's items forward
@@ -34,10 +39,10 @@ static func _advance_belt_items(ms: MachineState, speed: float, dt: float) -> vo
 	# Move from front (highest pos) to back so items don't stack through each other
 	for i in range(items.size() - 1, -1, -1):
 		var item: Dictionary = items[i]
-		var target := item["pos"] + speed * dt
+		var target: float = (item["pos"] as float) + speed * dt
 		# Don't overtake the item ahead (lower index = further along)
 		if i + 1 < items.size():
-			target = min(target, items[i + 1]["pos"] - SPACING)
+			target = min(target, (items[i + 1] as Dictionary)["pos"] as float - SPACING)
 		target = min(target, 1.0)  # 1.0 = end of this belt tile
 		item["pos"] = target
 
@@ -49,7 +54,7 @@ static func _push_belt_outputs(world_tile: Vector2i, ms: MachineState) -> void:
 		return  # Not at end yet
 
 	# Try to push to the next machine in this belt's direction
-	var next_tile := world_tile + DIR_VECTORS[ms.direction]
+	var next_tile: Vector2i = world_tile + DIR_VECTORS[ms.direction]
 	var pushed := _try_push_to(last["item"], next_tile, ms.direction)
 	if pushed:
 		ms.belt_items.pop_back()
@@ -97,16 +102,16 @@ static func _chest_add(ms: MachineState, item_id: String, count: int, max_slots:
 	var storage: Array = ms.custom.get("storage", [])
 	# Fill existing stacks of the same item first
 	for slot in storage:
-		if slot["item"] == item_id and slot["count"] < 500:
-			var add := min(500 - slot["count"], count)
-			slot["count"] += add
+		if slot["item"] == item_id and slot["count"] as int < 500:
+			var add: int = min(500 - (slot["count"] as int), count)
+			slot["count"] = (slot["count"] as int) + add
 			count -= add
 			if count <= 0:
 				ms.custom["storage"] = storage
 				return 0
 	# Open new slots for the remainder
 	while storage.size() < max_slots and count > 0:
-		var add := min(500, count)
+		var add: int = min(500, count)
 		storage.append({ "item": item_id, "count": add })
 		count -= add
 	ms.custom["storage"] = storage
@@ -126,10 +131,10 @@ static func push_machine_output(world_tile: Vector2i, ms: MachineState, slot: in
 	var out := ms.get_output(slot)
 	if out.is_empty():
 		return false
-	var next_tile := world_tile + DIR_VECTORS[ms.direction]
+	var next_tile: Vector2i = world_tile + DIR_VECTORS[ms.direction]
 	var pushed := _try_push_to(out["item"], next_tile, ms.direction)
 	if pushed:
-		var new_count := out["count"] - 1
+		var new_count: int = (out["count"] as int) - 1
 		if new_count <= 0:
 			ms.set_output(slot, "", 0)
 		else:

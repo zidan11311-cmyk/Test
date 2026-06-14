@@ -1,5 +1,7 @@
 class_name MachineProcessor
 
+const MachineState = preload("res://scripts/core/MachineState.gd")
+
 # Smelting recipe lookup: input_item_id -> { output_item, time }
 const SMELT_RECIPES := {
 	"iron_ore":     { "output": "iron_plate",     "time": 2.0 },
@@ -92,7 +94,7 @@ static func _tick_stone_furnace(ms: MachineState, dt: float) -> void:
 			var fuel_val: float = FUEL_VALUES.get(fuel_slot["item"], 0.0)
 			if fuel_val > 0.0:
 				ms.fuel_kwh += fuel_val
-				var new_count := fuel_slot["count"] - 1
+				var new_count: int = (fuel_slot["count"] as int) - 1
 				if new_count <= 0:
 					ms.set_input(1, "", 0)
 				else:
@@ -126,7 +128,7 @@ static func _tick_stone_furnace(ms: MachineState, dt: float) -> void:
 	if ms.progress >= 1.0:
 		ms.progress = 0.0
 		# Consume one ore
-		var new_count := ore_slot["count"] - 1
+		var new_count: int = (ore_slot["count"] as int) - 1
 		if new_count <= 0:
 			ms.set_input(0, "", 0)
 		else:
@@ -136,7 +138,7 @@ static func _tick_stone_furnace(ms: MachineState, dt: float) -> void:
 		if cur_out.is_empty():
 			ms.set_output(0, recipe["output"], 1)
 		else:
-			ms.set_output(0, recipe["output"], cur_out["count"] + 1)
+			ms.set_output(0, recipe["output"], (cur_out["count"] as int) + 1)
 
 static func _tick_electric_furnace(ms: MachineState, dt: float) -> void:
 	var ratio := ms.power_ratio
@@ -165,7 +167,7 @@ static func _tick_electric_furnace(ms: MachineState, dt: float) -> void:
 
 	if ms.progress >= 1.0:
 		ms.progress = 0.0
-		var new_count := ore_slot["count"] - 1
+		var new_count: int = (ore_slot["count"] as int) - 1
 		if new_count <= 0:
 			ms.set_input(0, "", 0)
 		else:
@@ -174,7 +176,7 @@ static func _tick_electric_furnace(ms: MachineState, dt: float) -> void:
 		if cur_out.is_empty():
 			ms.set_output(0, recipe["output"], 1)
 		else:
-			ms.set_output(0, recipe["output"], cur_out["count"] + 1)
+			ms.set_output(0, recipe["output"], (cur_out["count"] as int) + 1)
 
 static func _tick_assembler(ms: MachineState, dt: float) -> void:
 	var ratio := ms.power_ratio
@@ -216,7 +218,7 @@ static func _tick_assembler(ms: MachineState, dt: float) -> void:
 		for i in recipe.inputs.size():
 			var needed = recipe.inputs[i]
 			var slot := ms.get_input(i)
-			var new_count := slot["count"] - needed["count"]
+			var new_count: int = (slot["count"] as int) - (needed["count"] as int)
 			if new_count <= 0:
 				ms.set_input(i, "", 0)
 			else:
@@ -234,7 +236,7 @@ static func _tick_coal_generator(ms: MachineState, world_tile: Vector2i, dt: flo
 		var coal_slot := ms.get_input(0)
 		if not coal_slot.is_empty() and coal_slot["item"] == "coal":
 			ms.fuel_kwh += FUEL_VALUES["coal"]
-			var new_count := coal_slot["count"] - 1
+			var new_count: int = (coal_slot["count"] as int) - 1
 			if new_count <= 0:
 				ms.set_input(0, "", 0)
 			else:

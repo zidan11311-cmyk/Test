@@ -1,5 +1,10 @@
 extends Node
 
+const Constants = preload("res://scripts/core/Constants.gd")
+const PlayerState = preload("res://scripts/core/PlayerState.gd")
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+const Player = preload("res://scenes/player/Player.gd")
+
 @onready var hud: CanvasLayer = $HUD
 @onready var inventory_screen: Control = $InventoryScreen
 @onready var crafting_screen: Control = $CraftingScreen
@@ -11,7 +16,7 @@ extends Node
 @onready var pause_menu: Control = $PauseMenu
 @onready var settings_screen: Control = $SettingsScreen
 @onready var game_over_screen: Control = $GameOverScreen
-@onready var tutorial_overlay: Control = $TutorialOverlay
+@onready var tutorial_overlay: CanvasLayer = $TutorialOverlay
 @onready var fps_label: Label = $FPSLabel
 
 var _world_scene: Node = null
@@ -23,15 +28,6 @@ func _ready() -> void:
 
 	# Connect vehicle lifecycle signals for HUD management
 	WorldManager.vehicle_spawned.connect(_on_vehicle_node_spawned)
-
-	# Start on MainMenu — do NOT auto-start a game
-	await get_tree().process_frame
-	hud.visible = false
-	tutorial_overlay.visible = false
-	pause_menu.visible = false
-	game_over_screen.visible = false
-	settings_screen.visible = false
-	main_menu.visible = true
 
 	# Wire MainMenu callbacks
 	if main_menu.has_signal("start_new_game"):

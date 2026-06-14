@@ -1,5 +1,7 @@
 class_name TileSetGenerator
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 # Returns a TileSet with one tile per block type.
 # Each tile is a 32×32 procedurally drawn image based on Constants.TILE_COLORS.
 # Tiles are identified by their custom_data "tile_id" string.
@@ -52,11 +54,14 @@ static func generate() -> TileSet:
 		src.texture_region_size = Vector2i(Constants.TILE_SIZE, Constants.TILE_SIZE)
 		src.create_tile(Vector2i.ZERO)
 
-		# Set tile_id custom data
+		# Add to TileSet FIRST so TileData has access to physics/custom_data layers
+		ts.add_source(src, source_id)
+
+		# Set tile_id custom data (requires tile_set connection)
 		src.get_tile_data(Vector2i.ZERO, 0).set_custom_data("tile_id", tile_id)
 
 		# Add physics polygon for solid tiles (non-liquid, non-air)
-		var is_liquid := tile_id in ["water", "lava"]
+		var is_liquid: bool = tile_id in ["water", "lava"]
 		if not is_liquid:
 			var td := src.get_tile_data(Vector2i.ZERO, 0)
 			td.add_collision_polygon(0)
@@ -64,8 +69,6 @@ static func generate() -> TileSet:
 				Vector2(-16, -16), Vector2(16, -16),
 				Vector2(16, 16), Vector2(-16, 16)
 			]))
-
-		ts.add_source(src, source_id)
 		source_id += 1
 
 	return ts
@@ -368,7 +371,7 @@ static func _draw_crystal_stone(img: Image, color: Color) -> void:
 	var cx := float(sz) / 2.0
 	for y in sz:
 		for x in sz:
-			var dist_x := abs(float(x) - cx) / cx  # 0 at center, 1 at edge
+			var dist_x: float = abs(float(x) - cx) / cx  # 0 at center, 1 at edge
 			var glow := (1.0 + cos(dist_x * PI)) * 0.5  # 1 at center, 0 at edge
 			var boost := 1.0 + glow * 0.25
 			var c := img.get_pixel(x, y)

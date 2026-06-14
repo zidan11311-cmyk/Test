@@ -1,5 +1,8 @@
 extends Node
 
+const ItemDefinition = preload("res://scripts/core/ItemDefinition.gd")
+const Recipe = preload("res://scripts/core/Recipe.gd")
+
 signal crafting_completed(recipe_id: String, count: int)
 signal crafting_failed(recipe_id: String, reason: String)
 
@@ -17,9 +20,9 @@ func _load_items() -> void:
 	if file == null:
 		push_error("CraftingManager: cannot open " + path)
 		return
-	var text := file.read_as_text()
+	var text: String = file.get_as_text()
 	file.close()
-	var parsed := JSON.parse_string(text)
+	var parsed: Variant = JSON.parse_string(text)
 	if parsed == null:
 		push_error("CraftingManager: invalid JSON in items.json")
 		return
@@ -32,8 +35,11 @@ func _load_items() -> void:
 		def.stack_max = item_data.get("stack_max", 500)
 		def.fuel_value = item_data.get("fuel_value", 0.0)
 		def.description = item_data.get("description", "")
-		var c: Array = item_data.get("color", [1.0, 1.0, 1.0, 1.0])
-		def.color = Color(c[0], c[1], c[2], c[3] if c.size() > 3 else 1.0)
+		var c_raw = item_data.get("color", null)
+		if c_raw is Dictionary:
+			def.color = Color(c_raw.get("r", 1.0), c_raw.get("g", 1.0), c_raw.get("b", 1.0), c_raw.get("a", 1.0))
+		elif c_raw is Array:
+			def.color = Color(c_raw[0], c_raw[1], c_raw[2], c_raw[3] if (c_raw as Array).size() > 3 else 1.0)
 		_items[def.id] = def
 
 func _load_recipes() -> void:
@@ -42,9 +48,9 @@ func _load_recipes() -> void:
 	if file == null:
 		push_error("CraftingManager: cannot open " + path)
 		return
-	var text := file.read_as_text()
+	var text: String = file.get_as_text()
 	file.close()
-	var parsed := JSON.parse_string(text)
+	var parsed: Variant = JSON.parse_string(text)
 	if parsed == null:
 		push_error("CraftingManager: invalid JSON in recipes.json")
 		return
@@ -109,7 +115,7 @@ func craft(recipe_id: String, count: int = 1) -> bool:
 	AudioManager.play_sfx("craft_done")
 	SettingsManager.trigger_haptic(10)
 	# Show tutorial hint after first craft
-	var tutorial := Engine.get_main_loop().get_first_node_in_group("tutorial") if Engine.get_main_loop() is SceneTree else null
+	var tutorial: Node = Engine.get_main_loop().get_first_node_in_group("tutorial") if Engine.get_main_loop() is SceneTree else null
 	if tutorial:
 		tutorial.show_hint("build")
 	return true
