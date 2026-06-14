@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/MachineScreen.gd" id="1"]
+
+[node name="MachineScreen" type="Control"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+visible = false
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -220.0
+offset_right = 250.0
+offset_bottom = 220.0
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 36.0
+horizontal_alignment = 1
+text = "MACHINE"
+
+[node name="InputContainer" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 44.0
+offset_right = -5.0
+offset_bottom = -50.0
+
+[node name="OutputContainer" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 44.0
+offset_right = -10.0
+offset_bottom = -50.0
+
+[node name="FuelLabel" type="Label" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -70.0
+offset_right = -10.0
+offset_bottom = -46.0
+text = ""
+visible = false
+
+[node name="StatusLabel" type="Label" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -44.0
+offset_right = -10.0
+offset_bottom = -20.0
+text = "○ Idle"
+
+[node name="CloseButton" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -18.0
+offset_right = 50.0
+offset_bottom = -2.0
+text = "CLOSE"

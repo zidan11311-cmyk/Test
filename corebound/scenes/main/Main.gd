@@ -3,6 +3,8 @@ extends Node
 @onready var hud: CanvasLayer = $HUD
 @onready var inventory_screen: Control = $InventoryScreen
 @onready var crafting_screen: Control = $CraftingScreen
+@onready var build_menu: Control = $BuildMenu
+@onready var machine_screen: Control = $MachineScreen
 @onready var background: ColorRect = $Background
 
 var _world_scene: Node = null
@@ -29,6 +31,12 @@ func _start_new_game() -> void:
 	GameManager.state = GameManager.State.PLAYING
 	hud.visible = true
 
+	# Wait for build_menu and machine_screen to be ready before connecting
+	await build_menu.ready
+	await machine_screen.ready
+	build_menu.machine_selected.connect(_on_machine_selected)
+	build_menu.build_cancelled.connect(_on_build_cancelled)
+
 func _connect_hud_buttons() -> void:
 	# Connect after HUD is ready
 	await hud.ready
@@ -38,6 +46,8 @@ func _connect_hud_buttons() -> void:
 		hud.get_node("InventoryButton").pressed.connect(_toggle_inventory)
 	if hud.has_node("CraftingButton"):
 		hud.get_node("CraftingButton").pressed.connect(_toggle_crafting)
+	if hud.has_node("BuildButton"):
+		hud.get_node("BuildButton").pressed.connect(_toggle_build_menu)
 
 func _on_jump_button() -> void:
 	InputManager.jump_pressed = true
@@ -56,6 +66,26 @@ func _toggle_crafting() -> void:
 		crafting_screen.visible = false
 	else:
 		crafting_screen.show_crafting()
+
+func _toggle_build_menu() -> void:
+	if build_menu.visible:
+		build_menu.visible = false
+		var player := get_tree().get_first_node_in_group("player") as Player
+		if player:
+			player.exit_build_mode()
+	else:
+		build_menu.show_menu()
+
+func _on_machine_selected(machine_type: String) -> void:
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.enter_build_mode(machine_type, build_menu.get_direction())
+	# Keep build_menu visible so player can change direction
+
+func _on_build_cancelled() -> void:
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.exit_build_mode()
 
 func _on_state_changed(new_state: GameManager.State) -> void:
 	match new_state:

@@ -3,6 +3,9 @@ extends Node
 signal chunk_loaded(coord: Vector2i)
 signal chunk_unloaded(coord: Vector2i)
 signal block_changed(world_tile: Vector2i, new_tile_id: String)
+signal machine_interacted(world_tile: Vector2i, ms: MachineState)
+signal machine_placed(world_tile: Vector2i, ms: MachineState)
+signal machine_removed(world_tile: Vector2i)
 
 var world_seed: int = 0
 var loaded_chunks: Dictionary = {}      # Vector2i -> ChunkData
@@ -153,3 +156,36 @@ func serialize_loaded_chunks() -> Dictionary:
 			var key := "%d,%d" % [coord.x, coord.y]
 			result[key] = chunk.serialize()
 	return result
+
+func place_machine(world_tile: Vector2i, machine_type: String, direction: int) -> bool:
+	# Check tile is empty (air or no block)
+	var existing := get_block(world_tile)
+	var chunk_coord := ChunkCoords.world_to_chunk(world_tile)
+	var chunk := _get_or_load_chunk(chunk_coord)
+	var local := ChunkCoords.world_to_local(world_tile)
+
+	if chunk.machines.has(local):
+		return false  # Already has a machine
+
+	# Place machine state
+	var ms := MachineState.new(machine_type, direction)
+	chunk.machines[local] = ms
+
+	# Register with power network
+	PowerManager.register_machine(world_tile, ms)
+
+	# Spawn visual node
+	emit_signal("machine_placed", world_tile, ms)
+	return true
+
+func remove_machine(world_tile: Vector2i) -> bool:
+	var chunk_coord := ChunkCoords.world_to_chunk(world_tile)
+	var chunk := WorldManager.loaded_chunks.get(chunk_coord) as ChunkData
+	if chunk == null: return false
+	var local := ChunkCoords.world_to_local(world_tile)
+	if not chunk.machines.has(local): return false
+	var ms: MachineState = chunk.machines[local]
+	chunk.machines.erase(local)
+	PowerManager.unregister_machine(world_tile, ms.machine_type)
+	emit_signal("machine_removed", world_tile)
+	return true
