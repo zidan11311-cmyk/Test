@@ -1,0 +1,50 @@
+[
+  {
+    "id": "mining_cart",
+    "display_name": "Mining Cart",
+    "type": 0,
+    "description": "Automated cargo cart. Runs on rails, collects from drills and delivers to chests.",
+    "upgrades": [
+      { "level": 1, "speed_mps": 4.0, "cargo": 200, "fuel_type": "none", "color": [0.5, 0.4, 0.3, 1.0] },
+      { "level": 2, "speed_mps": 6.0, "cargo": 400, "fuel_type": "none", "color": [0.55, 0.5, 0.4, 1.0] },
+      { "level": 3, "speed_mps": 8.0, "cargo": 800, "fuel_type": "none", "color": [0.65, 0.6, 0.5, 1.0] }
+    ],
+    "recipe": {
+      "inputs": [{"item": "steel_plate", "count": 6}, {"item": "gear", "count": 4}, {"item": "iron_plate", "count": 4}],
+      "machine_type": "hand",
+      "craft_time": 10.0
+    }
+  },
+  {
+    "id": "drill_vehicle",
+    "display_name": "Drill Vehicle",
+    "type": 1,
+    "description": "Player-ridden vehicle with an auto-drill. Dig through rock 3x faster.",
+    "upgrades": [
+      { "level": 1, "speed_mps": 3.75, "drill_dps": 90.0, "fuel_type": "energy_cell", "fuel_capacity": 10.0, "color": [0.4, 0.55, 0.7, 1.0] },
+      { "level": 2, "speed_mps": 4.7,  "drill_dps": 180.0, "fuel_type": "energy_cell", "fuel_capacity": 20.0, "color": [0.3, 0.5, 0.75, 1.0] },
+      { "level": 3, "speed_mps": 5.6,  "drill_dps": 300.0, "fuel_type": "energy_cell", "fuel_capacity": 30.0, "color": [0.2, 0.45, 0.85, 1.0] }
+    ],
+    "recipe": {
+      "inputs": [{"item": "steel_plate", "count": 8}, {"item": "motor", "count": 2}, {"item": "circuit_board", "count": 4}, {"item": "drill_head", "count": 2}],
+      "machine_type": "hand",
+      "craft_time": 15.0
+    }
+  },
+  {
+    "id": "hover_vehicle",
+    "display_name": "Hover Vehicle",
+    "type": 2,
+    "description": "Hovers over lava. Required for the Magma Layer. Mk2 grants full heat immunity.",
+    "upgrades": [
+      { "level": 1, "speed_mps": 6.25, "cargo": 200, "fuel_type": "energy_cell", "fuel_capacity": 15.0, "heat_immune": false, "color": [0.6, 0.3, 0.7, 1.0] },
+      { "level": 2, "speed_mps": 6.9,  "cargo": 400, "fuel_type": "energy_cell", "fuel_capacity": 20.0, "heat_immune": true,  "color": [0.7, 0.25, 0.8, 1.0] },
+      { "level": 3, "speed_mps": 7.8,  "cargo": 600, "fuel_type": "energy_cell", "fuel_capacity": 30.0, "heat_immune": true,  "color": [0.85, 0.2, 0.9, 1.0] }
+    ],
+    "recipe": {
+      "inputs": [{"item": "aluminum_plate", "count": 6}, {"item": "energy_cell", "count": 4}, {"item": "circuit_board", "count": 2}, {"item": "motor", "count": 2}],
+      "machine_type": "hand",
+      "craft_time": 15.0
+    }
+  }
+]

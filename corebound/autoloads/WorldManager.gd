@@ -6,6 +6,8 @@ signal block_changed(world_tile: Vector2i, new_tile_id: String)
 signal machine_interacted(world_tile: Vector2i, ms: MachineState)
 signal machine_placed(world_tile: Vector2i, ms: MachineState)
 signal machine_removed(world_tile: Vector2i)
+signal vehicle_spawned(vehicle_node: Node, vs: VehicleState)
+signal vehicle_despawned(vs: VehicleState)
 
 var world_seed: int = 0
 var loaded_chunks: Dictionary = {}      # Vector2i -> ChunkData
@@ -15,6 +17,8 @@ var tilemap: TileMapLayer = null        # set by World scene after creation
 var _tile_id_to_source: Dictionary = {}  # tile_id -> source_id in TileSet
 var _proc_gen: ProceduralGen = null
 var _tileset: TileSet = null
+
+var vehicles: Array = []   # Array of VehicleState for persistence
 
 func initialize(seed_val: int, tm: TileMapLayer) -> void:
 	world_seed = seed_val
@@ -157,6 +161,19 @@ func serialize_loaded_chunks() -> Dictionary:
 			result[key] = chunk.serialize()
 	return result
 
+func serialize_vehicles() -> Array:
+	var result := []
+	for vs in vehicles:
+		result.append((vs as VehicleState).serialize())
+	return result
+
+func load_vehicles_from_save(vehicles_data: Array) -> void:
+	vehicles.clear()
+	for d in vehicles_data:
+		var vs := VehicleState.deserialize(d)
+		vehicles.append(vs)
+		emit_signal("vehicle_spawned", null, vs)  # World.gd will instantiate the scene
+
 func place_machine(world_tile: Vector2i, machine_type: String, direction: int) -> bool:
 	# Check tile is empty (air or no block)
 	var existing := get_block(world_tile)
@@ -189,3 +206,24 @@ func remove_machine(world_tile: Vector2i) -> bool:
 	PowerManager.unregister_machine(world_tile, ms.machine_type)
 	emit_signal("machine_removed", world_tile)
 	return true
+
+func spawn_vehicle(vs: VehicleState) -> void:
+	vehicles.append(vs)
+	emit_signal("vehicle_spawned", null, vs)  # World.gd will instantiate the scene
+
+func despawn_vehicle(vs: VehicleState) -> void:
+	vehicles.erase(vs)
+	emit_signal("vehicle_despawned", vs)
+
+func place_rail(world_tile: Vector2i) -> bool:
+	# Rails go into the normal block layer as a special tile type
+	var existing := get_block(world_tile)
+	if existing != null and not existing.is_air():
+		return false  # Can't place on solid block
+	set_block(world_tile, "rail")
+	return true
+
+func remove_rail(world_tile: Vector2i) -> void:
+	var block := get_block(world_tile)
+	if block != null and block.tile_id == "rail":
+		set_block(world_tile, "air")

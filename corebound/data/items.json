@@ -398,5 +398,115 @@
     "fuel_value": 0.0,
     "description": "40-slot item storage.",
     "color": { "r": 0.55, "g": 0.55, "b": 0.6, "a": 1.0 }
+  },
+  {
+    "id": "rail",
+    "display_name": "Rail",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Place to create a track for the Mining Cart.",
+    "color": { "r": 0.6, "g": 0.55, "b": 0.4, "a": 1.0 }
+  },
+  {
+    "id": "motor",
+    "display_name": "Motor",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 50,
+    "fuel_value": 0.0,
+    "description": "Powers vehicles and machines.",
+    "color": { "r": 0.4, "g": 0.4, "b": 0.55, "a": 1.0 }
+  },
+  {
+    "id": "drill_head",
+    "display_name": "Drill Head",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 10,
+    "fuel_value": 0.0,
+    "description": "Hardened cutting head for drills.",
+    "color": { "r": 0.45, "g": 0.35, "b": 0.25, "a": 1.0 }
+  },
+  {
+    "id": "hull_plating",
+    "display_name": "Hull Plating",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 20,
+    "fuel_value": 0.0,
+    "description": "Armored plating for vehicles.",
+    "color": { "r": 0.5, "g": 0.5, "b": 0.55, "a": 1.0 }
+  },
+  {
+    "id": "energy_cell",
+    "display_name": "Energy Cell",
+    "category": "component",
+    "tier": 3,
+    "stack_max": 20,
+    "fuel_value": 5.0,
+    "description": "High-density energy storage. Used as vehicle fuel.",
+    "color": { "r": 0.2, "g": 0.8, "b": 0.9, "a": 1.0 }
+  },
+  {
+    "id": "mining_cart",
+    "display_name": "Mining Cart",
+    "category": "vehicle",
+    "tier": 2,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Automated cargo cart that runs on rails.",
+    "color": { "r": 0.5, "g": 0.4, "b": 0.3, "a": 1.0 }
+  },
+  {
+    "id": "drill_vehicle",
+    "display_name": "Drill Vehicle",
+    "category": "vehicle",
+    "tier": 3,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Rideable drilling machine. 3x faster mining.",
+    "color": { "r": 0.4, "g": 0.55, "b": 0.7, "a": 1.0 }
+  },
+  {
+    "id": "hover_vehicle",
+    "display_name": "Hover Vehicle",
+    "category": "vehicle",
+    "tier": 4,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Hovers over lava. Required for Magma Layer.",
+    "color": { "r": 0.6, "g": 0.3, "b": 0.7, "a": 1.0 }
+  },
+  {
+    "id": "silver_plate",
+    "display_name": "Silver Plate",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Refined silver plate.",
+    "color": { "r": 0.75, "g": 0.75, "b": 0.80, "a": 1.0 }
+  },
+  {
+    "id": "gold_plate",
+    "display_name": "Gold Plate",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Refined gold plate.",
+    "color": { "r": 0.90, "g": 0.75, "b": 0.10, "a": 1.0 }
+  },
+  {
+    "id": "aluminum_plate",
+    "display_name": "Aluminum Plate",
+    "category": "component",
+    "tier": 2,
+    "stack_max": 200,
+    "fuel_value": 0.0,
+    "description": "Lightweight aluminum plate.",
+    "color": { "r": 0.70, "g": 0.78, "b": 0.82, "a": 1.0 }
   }
 ]

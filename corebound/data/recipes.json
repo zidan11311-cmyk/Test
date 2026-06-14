@@ -280,5 +280,153 @@
     "machine_type": "hand",
     "craft_time": 5.0,
     "tech_required": "shallow_tech"
+  },
+  {
+    "id": "rail",
+    "display_name": "Rail",
+    "output_item": "rail",
+    "output_count": 4,
+    "inputs": [
+      { "item": "iron_plate", "count": 2 },
+      { "item": "stone", "count": 4 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 1.0,
+    "tech_required": ""
+  },
+  {
+    "id": "motor",
+    "display_name": "Motor",
+    "output_item": "motor",
+    "output_count": 1,
+    "inputs": [
+      { "item": "gear", "count": 3 },
+      { "item": "copper_wire", "count": 4 },
+      { "item": "iron_plate", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 5.0,
+    "tech_required": ""
+  },
+  {
+    "id": "drill_head",
+    "display_name": "Drill Head",
+    "output_item": "drill_head",
+    "output_count": 1,
+    "inputs": [
+      { "item": "steel_plate", "count": 4 },
+      { "item": "diamond", "count": 2 },
+      { "item": "gear", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 6.0,
+    "tech_required": ""
+  },
+  {
+    "id": "hull_plating",
+    "display_name": "Hull Plating",
+    "output_item": "hull_plating",
+    "output_count": 1,
+    "inputs": [
+      { "item": "steel_plate", "count": 6 },
+      { "item": "aluminum_plate", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 8.0,
+    "tech_required": ""
+  },
+  {
+    "id": "energy_cell",
+    "display_name": "Energy Cell",
+    "output_item": "energy_cell",
+    "output_count": 1,
+    "inputs": [
+      { "item": "circuit_board", "count": 1 },
+      { "item": "battery", "count": 2 },
+      { "item": "copper_wire", "count": 2 }
+    ],
+    "machine_type": "assembler",
+    "craft_time": 4.0,
+    "tech_required": ""
+  },
+  {
+    "id": "mining_cart",
+    "display_name": "Mining Cart",
+    "output_item": "mining_cart",
+    "output_count": 1,
+    "inputs": [
+      { "item": "steel_plate", "count": 6 },
+      { "item": "gear", "count": 4 },
+      { "item": "iron_plate", "count": 4 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 10.0,
+    "tech_required": ""
+  },
+  {
+    "id": "drill_vehicle",
+    "display_name": "Drill Vehicle",
+    "output_item": "drill_vehicle",
+    "output_count": 1,
+    "inputs": [
+      { "item": "steel_plate", "count": 8 },
+      { "item": "motor", "count": 2 },
+      { "item": "circuit_board", "count": 4 },
+      { "item": "drill_head", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 15.0,
+    "tech_required": "deep_rock_tech"
+  },
+  {
+    "id": "hover_vehicle",
+    "display_name": "Hover Vehicle",
+    "output_item": "hover_vehicle",
+    "output_count": 1,
+    "inputs": [
+      { "item": "aluminum_plate", "count": 6 },
+      { "item": "energy_cell", "count": 4 },
+      { "item": "circuit_board", "count": 2 },
+      { "item": "motor", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 15.0,
+    "tech_required": "crystal_tech"
+  },
+  {
+    "id": "silver_plate",
+    "display_name": "Silver Plate",
+    "output_item": "silver_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "silver_ore", "count": 2 }
+    ],
+    "machine_type": "electric_furnace",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "gold_plate",
+    "display_name": "Gold Plate",
+    "output_item": "gold_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "gold_ore", "count": 2 }
+    ],
+    "machine_type": "electric_furnace",
+    "craft_time": 4.0,
+    "tech_required": ""
+  },
+  {
+    "id": "aluminum_plate",
+    "display_name": "Aluminum Plate",
+    "output_item": "aluminum_plate",
+    "output_count": 1,
+    "inputs": [
+      { "item": "aluminum_ore", "count": 3 }
+    ],
+    "machine_type": "electric_furnace",
+    "craft_time": 3.0,
+    "tech_required": ""
   }
 ]
