@@ -1,7 +1,7 @@
 class_name HoverVehicle
 extends BaseVehicle
 
-const HOVER_HEIGHT := 2.5 * Constants.TILE_SIZE   # pixels above ground
+var HOVER_HEIGHT := 2.5 * Constants.TILE_SIZE   # pixels above ground
 const HOVER_SPEED_VERT := 180.0                    # px/s for hover correction
 
 var _stats: Dictionary

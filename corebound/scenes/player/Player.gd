@@ -1,10 +1,10 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED := Constants.PLAYER_SPEED
-const JUMP_VELOCITY := Constants.PLAYER_JUMP_VELOCITY
-const GRAVITY := Constants.PLAYER_GRAVITY
-const MINE_REACH_PX := Constants.MINE_REACH_TILES * Constants.TILE_SIZE
+var SPEED := Constants.PLAYER_SPEED
+var JUMP_VELOCITY := Constants.PLAYER_JUMP_VELOCITY
+var GRAVITY := Constants.PLAYER_GRAVITY
+var MINE_REACH_PX := Constants.MINE_REACH_TILES * Constants.TILE_SIZE
 
 # Mining state
 var _mining_target: Vector2i = Vector2i(-9999, -9999)

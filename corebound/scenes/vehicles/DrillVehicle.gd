@@ -1,7 +1,7 @@
 class_name DrillVehicle
 extends BaseVehicle
 
-const GRAVITY := Constants.PLAYER_GRAVITY
+var GRAVITY := Constants.PLAYER_GRAVITY
 const JUMP_VEL := -380.0
 
 var _stats: Dictionary
