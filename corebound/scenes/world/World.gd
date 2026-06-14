@@ -6,10 +6,18 @@ var _machine_nodes: Dictionary = {}  # Vector2i world_tile -> MachineNode
 var _vehicle_nodes: Dictionary = {}  # VehicleState -> Node
 
 func _ready() -> void:
+	# Add BackgroundLayer behind everything
+	var bg := preload("res://scenes/world/BackgroundLayer.tscn").instantiate()
+	add_child(bg)
+	move_child(bg, 0)  # behind everything
+
 	# Generate a new world seed if starting fresh
 	if WorldManager.world_seed == 0:
 		WorldManager.world_seed = randi()
 	WorldManager.initialize(WorldManager.world_seed, tilemap)
+
+	# Push tilemap behind machines and entities
+	tilemap.z_index = -50
 
 	# Connect machine lifecycle signals
 	WorldManager.machine_placed.connect(_on_machine_placed)
@@ -22,6 +30,9 @@ func _ready() -> void:
 	WorldManager.vehicle_spawned.connect(_on_vehicle_spawned)
 	WorldManager.vehicle_despawned.connect(_on_vehicle_despawned)
 
+	# Connect block changed signal for ambient FX hook
+	WorldManager.block_changed.connect(_on_block_changed_world)
+
 	# Load player
 	var player_scene := preload("res://scenes/player/Player.tscn")
 	var player := player_scene.instantiate()
@@ -32,6 +43,11 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	pass  # chunk updates are handled by Player._physics_process
+
+func _on_block_changed_world(_world_tile: Vector2i, _new_tile_id: String) -> void:
+	# Hook for future ambient world FX (e.g. lava glow, etc.)
+	# Particle spawning on break is handled by Player._on_block_changed.
+	pass
 
 func _on_machine_placed(world_tile: Vector2i, ms: MachineState) -> void:
 	var node := preload("res://scenes/machines/MachineNode.tscn").instantiate()

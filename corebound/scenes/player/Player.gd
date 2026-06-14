@@ -23,6 +23,14 @@ var _is_mounted: bool = false
 var _mine_progress_bar: ColorRect
 var _sprite: ColorRect   # placeholder art: colored rectangle
 
+# Animation
+var _anim_controller: AnimationController
+
+# Phase 6: Art & Animation additions
+var _last_mine_tile_id: String = "stone"
+var _was_on_floor: bool = false
+var _spark_timer: float = 0.0
+
 signal depth_changed(new_depth_tiles: float)
 
 func _ready() -> void:
@@ -35,6 +43,9 @@ func _ready() -> void:
 	_sprite.position = Vector2(-Constants.TILE_SIZE * 0.5, -Constants.TILE_SIZE * 1.5)
 	_sprite.color = Color(0.25, 0.55, 0.95)
 	add_child(_sprite)
+
+	# AnimationController
+	_anim_controller = AnimationController.new(_sprite)
 
 	# Mining progress bar (thin red bar above player)
 	_mine_progress_bar = ColorRect.new()
@@ -58,6 +69,9 @@ func _ready() -> void:
 	InputManager.hold_world.connect(_on_hold_world)
 	InputManager.tap_released.connect(_on_tap_released)
 
+	# Connect block changed signal for mining particles
+	WorldManager.block_changed.connect(_on_block_changed)
+
 	# Restore position from save
 	if InventoryManager.player_state:
 		global_position = InventoryManager.player_state.position
@@ -76,7 +90,16 @@ func _physics_process(delta: float) -> void:
 	if InputManager.consume_jump() and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
+	# Update animation before moving
+	_anim_controller.update(delta, velocity, is_on_floor(), _mining_target != Vector2i(-9999, -9999), not visible)
+
 	move_and_slide()
+
+	# Landing dust effect
+	if not _was_on_floor and is_on_floor():
+		DustParticles.spawn(get_parent(), global_position)
+	_was_on_floor = is_on_floor()
+
 	_check_vehicle_interact()
 	_update_depth_tracking()
 	_tick_mining(delta)
@@ -195,11 +218,13 @@ func _try_start_mining(world_pos: Vector2) -> void:
 	if target_tile != _mining_target:
 		_mining_target = target_tile
 		_mine_accumulator = 0.0
+		_last_mine_tile_id = block.tile_id
 
 func _stop_mining() -> void:
 	_mining_target = Vector2i(-9999, -9999)
 	_mine_accumulator = 0.0
 	_mine_progress_bar.visible = false
+	_spark_timer = 0.0
 
 func _tick_mining(delta: float) -> void:
 	if _mining_target == Vector2i(-9999, -9999):
@@ -217,6 +242,17 @@ func _tick_mining(delta: float) -> void:
 	_mine_progress_bar.visible = true
 	_mine_progress_bar.size.x = Constants.TILE_SIZE * progress
 
+	# Ore spark particles every 0.1s while mining an ore tile
+	if _last_mine_tile_id.ends_with("_ore"):
+		_spark_timer += delta
+		if _spark_timer >= 0.1:
+			_spark_timer = 0.0
+			var spark_pos := Vector2(
+				_mining_target.x * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5,
+				_mining_target.y * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5
+			)
+			SparkParticles.spawn(get_parent(), spark_pos)
+
 	if _mine_accumulator >= block.max_hp:
 		var broke := WorldManager.damage_block(_mining_target, block.max_hp)
 		if broke:
@@ -224,6 +260,14 @@ func _tick_mining(delta: float) -> void:
 			_stop_mining()
 	else:
 		AudioManager.play_sfx("mine_tick")
+
+func _on_block_changed(world_tile: Vector2i, new_tile_id: String) -> void:
+	if new_tile_id == "air" or new_tile_id == "":
+		var world_pos := Vector2(
+			world_tile.x * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5,
+			world_tile.y * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5
+		)
+		MiningParticles.spawn(get_parent(), world_pos, _last_mine_tile_id)
 
 func get_depth_meters() -> float:
 	# Each tile is 32px; we define 2.5 tiles = 1 meter (arbitrary but readable)

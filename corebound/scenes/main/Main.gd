@@ -35,6 +35,9 @@ func _start_new_game() -> void:
 	GameManager.state = GameManager.State.PLAYING
 	hud.visible = true
 
+	# Start background music for the surface layer
+	AudioManager.play_music_for_layer("surface")
+
 	# Wait for build_menu and machine_screen to be ready before connecting
 	await build_menu.ready
 	await machine_screen.ready
