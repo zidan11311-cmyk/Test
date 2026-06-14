@@ -1,6 +1,9 @@
 class_name MachineNode
 extends Node2D
 
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 var world_tile: Vector2i
 var machine_state: MachineState
 var machine_def: Dictionary  # from machines.json via CraftingManager or a local lookup
@@ -42,7 +45,7 @@ func _build_visuals() -> void:
 	_direction_indicator = ColorRect.new()
 	_direction_indicator.size = Vector2(8, 8)
 	_direction_indicator.color = Color(1, 1, 0, 0.9)
-	var dir_offset := DIR_OFFSETS[machine_state.direction]
+	var dir_offset: Vector2 = DIR_OFFSETS[machine_state.direction]
 	_direction_indicator.position = Vector2(ts * 0.5 + dir_offset.x * (ts * 0.35), ts * 0.5 + dir_offset.y * (ts * 0.35)) - Vector2(4, 4)
 	add_child(_direction_indicator)
 

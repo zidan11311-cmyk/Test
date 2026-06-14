@@ -1,6 +1,8 @@
 class_name MiningParticles
 extends CPUParticles2D
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 func _ready() -> void:
     # One-shot burst
     emitting = false
@@ -39,6 +41,6 @@ func burst(world_pos: Vector2, block_color: Color) -> void:
 # Static factory: spawn a burst at world_pos with the block's color
 static func spawn(parent: Node, world_pos: Vector2, tile_id: String) -> void:
     var block_color: Color = Constants.TILE_COLORS.get(tile_id, Color(0.5, 0.5, 0.5))
-    var particles := MiningParticles.new()
+    var particles: CPUParticles2D = load("res://scenes/fx/MiningParticles.gd").new() as CPUParticles2D
     parent.add_child(particles)
     particles.burst(world_pos, block_color)

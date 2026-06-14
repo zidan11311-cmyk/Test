@@ -1,6 +1,8 @@
 class_name LavaParticles
 extends CPUParticles2D
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 func _ready() -> void:
     emitting = true
     one_shot = false

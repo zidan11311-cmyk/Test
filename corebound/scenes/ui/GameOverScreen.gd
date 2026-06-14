@@ -1,5 +1,7 @@
 extends Control
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 @onready var depth_label: Label = $Panel/VBox/DepthLabel
 @onready var respawn_btn: Button = $Panel/VBox/RespawnButton
 @onready var menu_btn: Button = $Panel/VBox/MenuButton

@@ -1,5 +1,7 @@
 class_name PowerNetwork
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 var chunk_coord: Vector2i
 var supply_kw: float = 0.0
 var demand_kw: float = 0.0

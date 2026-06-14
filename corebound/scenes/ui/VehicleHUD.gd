@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+
 @onready var fuel_bar: ProgressBar = $FuelBar
 @onready var fuel_label: Label = $FuelLabel
 @onready var hp_bar: ProgressBar = $HPBar

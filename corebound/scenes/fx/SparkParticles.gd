@@ -25,7 +25,7 @@ func _ready() -> void:
     finished.connect(queue_free)
 
 static func spawn(parent: Node, world_pos: Vector2) -> void:
-    var p := SparkParticles.new()
+    var p: CPUParticles2D = load("res://scenes/fx/SparkParticles.gd").new() as CPUParticles2D
     parent.add_child(p)
     p.global_position = world_pos
     p.emitting = true

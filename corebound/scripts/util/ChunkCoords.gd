@@ -1,5 +1,7 @@
 class_name ChunkCoords
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 static func world_to_chunk(world_tile: Vector2i) -> Vector2i:
 	# Floor division (handles negative coords correctly)
 	var cx := floori(float(world_tile.x) / Constants.CHUNK_SIZE)

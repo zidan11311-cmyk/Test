@@ -105,15 +105,15 @@ func play_sfx_positioned(sfx_id: String, world_pos: Vector2, max_dist: float = 8
 		return
 	# Find camera position via player group
 	var camera_pos := Vector2.ZERO
-	var camera_nodes := Engine.get_main_loop().get_nodes_in_group("camera") if Engine.get_main_loop() is SceneTree else []
+	var camera_nodes: Array = Engine.get_main_loop().get_nodes_in_group("camera") if Engine.get_main_loop() is SceneTree else []
 	if camera_nodes.size() > 0 and camera_nodes[0] is Node2D:
 		camera_pos = (camera_nodes[0] as Node2D).global_position
-	var dist := camera_pos.distance_to(world_pos)
+	var dist: float = camera_pos.distance_to(world_pos)
 	if dist >= max_dist:
 		return
-	var t := 1.0 - clamp(dist / max_dist, 0.0, 1.0)
+	var t: float = 1.0 - clamp(dist / max_dist, 0.0, 1.0)
 	# Convert linear falloff to dB attenuation (-80 at edge, 0 at centre)
-	var volume_db := lerp(-80.0, 0.0, t)
+	var volume_db: float = lerp(-80.0, 0.0, t)
 	var player := _get_free_sfx_player()
 	if player == null:
 		return

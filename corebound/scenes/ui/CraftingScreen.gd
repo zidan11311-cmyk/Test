@@ -1,5 +1,7 @@
 extends Control
 
+const Recipe = preload("res://scripts/core/Recipe.gd")
+
 @onready var recipe_list: VBoxContainer = $ScrollContainer/RecipeList
 @onready var close_btn: Button = $CloseButton
 @onready var status_label: Label = $StatusLabel
@@ -44,7 +46,7 @@ func _refresh_recipes() -> void:
         var inputs_str := ""
         for inp in recipe.inputs:
             var def := CraftingManager.get_item_definition(inp["item"])
-            var n := inp["item"] if def == null else def.display_name
+            var n: String = inp["item"] if def == null else def.display_name
             var have := InventoryManager.count_item(inp["item"])
             inputs_str += "%s: %d/%d  " % [n, have, inp["count"]]
         var inputs_label := Label.new()
@@ -74,7 +76,7 @@ func _on_craft_pressed(recipe_id: String, count: int) -> void:
 
 func _on_craft_done(recipe_id: String, count: int) -> void:
     var recipe := CraftingManager.get_recipe(recipe_id)
-    var name := recipe_id if recipe == null else recipe.display_name
+    var name: String = recipe_id if recipe == null else recipe.display_name
     status_label.text = "Crafted: %s x%d" % [name, count]
     status_label.visible = true
     await get_tree().create_timer(2.0).timeout

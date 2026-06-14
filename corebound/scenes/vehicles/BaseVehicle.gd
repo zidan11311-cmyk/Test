@@ -1,6 +1,9 @@
 class_name BaseVehicle
 extends CharacterBody2D
 
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 var vehicle_state: VehicleState
 var _is_player_mounted: bool = false
 

@@ -1,5 +1,9 @@
 class_name ProceduralGen
 
+const Constants = preload("res://scripts/core/Constants.gd")
+const BlockData = preload("res://scripts/core/BlockData.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+
 var _seed: int
 var _cave_noise: FastNoiseLite
 var _ore_noises: Dictionary  # tile_id -> FastNoiseLite

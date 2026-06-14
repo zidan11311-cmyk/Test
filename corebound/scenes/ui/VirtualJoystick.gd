@@ -34,9 +34,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
     if event is InputEventScreenTouch:
         var e := event as InputEventScreenTouch
-        var local_pos := get_local_mouse_position() if e.index == 0 else to_local(e.position)
+        var local_pos := get_local_mouse_position() if e.index == 0 else (e.position - global_position)
         # Use screen position converted to local
-        var screen_local := to_local(e.position)
+        var screen_local := e.position - global_position
         if e.pressed and _active_touch == -1:
             if Rect2(Vector2.ZERO, size).has_point(screen_local):
                 _active_touch = e.index
@@ -52,7 +52,7 @@ func _input(event: InputEvent) -> void:
         var e := event as InputEventScreenDrag
         if e.index != _active_touch:
             return
-        var drag_local := to_local(e.position)
+        var drag_local := e.position - global_position
         var offset := drag_local - _origin
         if offset.length() < deadzone:
             InputManager.joystick_axis = Vector2.ZERO

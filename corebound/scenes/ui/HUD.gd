@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+const Constants = preload("res://scripts/core/Constants.gd")
+const Player = preload("res://scenes/player/Player.gd")
+
 @onready var hp_bar: ProgressBar = $HPBar
 @onready var depth_label: Label = $DepthLabel
 @onready var hotbar_container: HBoxContainer = $Hotbar
@@ -104,7 +107,7 @@ func _refresh_hotbar() -> void:
 			_hotbar_labels[i].text = ""
 		else:
 			var def := CraftingManager.get_item_definition(slot["item"])
-			var name_short := slot["item"].substr(0, 6) if def == null else def.display_name.substr(0, 8)
+			var name_short: String = slot["item"].substr(0, 6) if def == null else def.display_name.substr(0, 8)
 			_hotbar_labels[i].text = name_short + "\n×" + str(slot["count"])
 
 func _on_item_added(item_id: String, count: int) -> void:

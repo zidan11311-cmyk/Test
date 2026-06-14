@@ -1,6 +1,12 @@
 class_name MiningCart
 extends Node2D
 
+const VehicleState = preload("res://scripts/core/VehicleState.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+const MachineState = preload("res://scripts/core/MachineState.gd")
+const ChunkData = preload("res://scripts/core/ChunkData.gd")
+
 var vehicle_state: VehicleState
 var _tile_pos: Vector2i     # current tile position (not pixel)
 var _progress: float = 0.0  # 0.0–1.0 interpolation between current and next tile
@@ -81,7 +87,7 @@ func _get_next_rail_tile() -> Vector2i:
 		return candidate
 	# Try vertical rails (going down or up)
 	for try_dir in [Vector2i(0, 1), Vector2i(0, -1)]:
-		var vert := _tile_pos + try_dir
+		var vert: Vector2i = _tile_pos + try_dir
 		var vb := WorldManager.get_block(vert)
 		if vb != null and vb.tile_id == "rail":
 			return vert
@@ -96,7 +102,7 @@ func _try_collect_from_drills() -> void:
 		return
 
 	for offset in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
-		var neighbor := _tile_pos + offset
+		var neighbor: Vector2i = _tile_pos + offset
 		var ms := _get_machine_at(neighbor)
 		if ms == null:
 			continue
@@ -105,11 +111,11 @@ func _try_collect_from_drills() -> void:
 		var out := ms.get_output(0)
 		if out.is_empty():
 			continue
-		var take := min(out["count"], vehicle_state.max_cargo - cargo_total)
+		var take: int = min(out["count"] as int, vehicle_state.max_cargo - cargo_total)
 		if take <= 0:
 			continue
 		vehicle_state.add_cargo(out["item"], take)
-		var new_count := out["count"] - take
+		var new_count: int = (out["count"] as int) - take
 		if new_count <= 0:
 			ms.set_output(0, "", 0)
 		else:
@@ -120,7 +126,7 @@ func _try_deposit_to_chests() -> void:
 	if vehicle_state.cargo.is_empty():
 		return
 	for offset in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
-		var neighbor := _tile_pos + offset
+		var neighbor: Vector2i = _tile_pos + offset
 		var ms := _get_machine_at(neighbor)
 		if ms == null:
 			continue
@@ -136,8 +142,8 @@ func _try_deposit_to_chests() -> void:
 			var added := 0
 			for chest_slot in storage:
 				if chest_slot["item"] == item_id and chest_slot["count"] < 500:
-					var add := min(500 - chest_slot["count"], count)
-					chest_slot["count"] += add
+					var add: int = min(500 - (chest_slot["count"] as int), count)
+					chest_slot["count"] = (chest_slot["count"] as int) + add
 					added += add
 					count -= add
 					if count <= 0:

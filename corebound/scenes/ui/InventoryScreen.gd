@@ -1,5 +1,7 @@
 extends Control
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 @onready var grid: GridContainer = $ScrollContainer/GridContainer
 @onready var close_btn: Button = $CloseButton
 
@@ -43,7 +45,7 @@ func _refresh() -> void:
             _slot_panels[i].modulate = Color(0.6, 0.6, 0.6)
         else:
             var def := CraftingManager.get_item_definition(slot["item"])
-            var name_str := slot["item"] if def == null else def.display_name
+            var name_str: String = slot["item"] if def == null else def.display_name
             _slot_labels[i].text = name_str.substr(0, 8) + "\n×" + str(slot["count"])
             _slot_panels[i].modulate = Color.WHITE
 

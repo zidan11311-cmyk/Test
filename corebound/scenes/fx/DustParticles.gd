@@ -29,6 +29,6 @@ func puff(world_pos: Vector2) -> void:
     emitting = true
 
 static func spawn(parent: Node, world_pos: Vector2) -> void:
-    var p := DustParticles.new()
+    var p: CPUParticles2D = load("res://scenes/fx/DustParticles.gd").new() as CPUParticles2D
     parent.add_child(p)
     p.puff(world_pos)

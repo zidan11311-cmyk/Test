@@ -1,5 +1,7 @@
 extends Control
 
+const MachineState = preload("res://scripts/core/MachineState.gd")
+
 var _current_tile: Vector2i
 var _current_ms: MachineState
 
@@ -38,7 +40,7 @@ func _refresh() -> void:
 			lbl.text = "In %d: [empty]" % i
 		else:
 			var def := CraftingManager.get_item_definition(slot["item"])
-			var name := slot["item"] if def == null else def.display_name
+			var name: String = slot["item"] if def == null else def.display_name
 			lbl.text = "In %d: %s ×%d" % [i, name, slot["count"]]
 		input_container.add_child(lbl)
 
@@ -59,7 +61,7 @@ func _refresh() -> void:
 			lbl.text = "Out %d: [empty]" % i
 		else:
 			var def := CraftingManager.get_item_definition(slot["item"])
-			var name := slot["item"] if def == null else def.display_name
+			var name: String = slot["item"] if def == null else def.display_name
 			lbl.text = "Out %d: %s ×%d" % [i, name, slot["count"]]
 		output_container.add_child(lbl)
 

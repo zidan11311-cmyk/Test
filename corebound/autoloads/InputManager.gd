@@ -1,5 +1,8 @@
 extends Node
 
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 signal tap_world(world_pos: Vector2)
 signal hold_world(world_pos: Vector2)
 signal tap_released()

@@ -1,6 +1,13 @@
 class_name Player
 extends CharacterBody2D
 
+const Constants = preload("res://scripts/core/Constants.gd")
+const AnimationController = preload("res://scripts/systems/AnimationController.gd")
+const MiningParticles = preload("res://scenes/fx/MiningParticles.gd")
+const DustParticles = preload("res://scenes/fx/DustParticles.gd")
+const SparkParticles = preload("res://scenes/fx/SparkParticles.gd")
+const ChunkCoords = preload("res://scripts/util/ChunkCoords.gd")
+
 var SPEED := Constants.PLAYER_SPEED
 var JUMP_VELOCITY := Constants.PLAYER_JUMP_VELOCITY
 var GRAVITY := Constants.PLAYER_GRAVITY
@@ -254,7 +261,7 @@ func _tick_mining(delta: float) -> void:
 	_mine_accumulator += _pickaxe_dps * delta
 
 	# Update visual progress bar
-	var progress := clamp(_mine_accumulator / block.max_hp, 0.0, 1.0)
+	var progress: float = clamp(_mine_accumulator / block.max_hp, 0.0, 1.0)
 	_mine_progress_bar.visible = true
 	_mine_progress_bar.size.x = Constants.TILE_SIZE * progress
 

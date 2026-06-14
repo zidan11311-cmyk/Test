@@ -1,6 +1,8 @@
 class_name BackgroundLayer
 extends Node2D
 
+const Constants = preload("res://scripts/core/Constants.gd")
+
 # Each layer is a ColorRect covering the screen + overflow
 # They are positioned relative to camera with parallax factor
 
@@ -55,7 +57,7 @@ func _process(_delta: float) -> void:
 
 	# Position each rect with parallax offset
 	for i in 3:
-		var parallax := PARALLAX_SPEEDS[i]
+		var parallax: float = PARALLAX_SPEEDS[i]
 		var rect := _layers[i]
 		rect.global_position = Vector2(
 			cam_pos.x - vp.x * 1.5 + cam_pos.x * parallax * -1.0,
@@ -68,8 +70,8 @@ func _update_colors() -> void:
 
 func _get_layer_color(layer_name: String, depth_index: int) -> Color:
 	var colors: Array = LAYER_COLORS.get(layer_name, LAYER_COLORS["shallow"])
-	var t := float(depth_index) / 2.0
-	var base := colors[0].lerp(colors[1], t)
+	var t: float = float(depth_index) / 2.0
+	var base: Color = (colors[0] as Color).lerp(colors[1], t)
 	# Darken deeper parallax layers
 	return base * (1.0 - depth_index * 0.1)
 

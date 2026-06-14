@@ -1,5 +1,8 @@
 extends Node
 
+const PlayerState = preload("res://scripts/core/PlayerState.gd")
+const Constants = preload("res://scripts/core/Constants.gd")
+
 signal inventory_changed()
 signal item_added(item_id: String, count: int)
 signal item_removed(item_id: String, count: int)
@@ -28,11 +31,11 @@ func add_item(item_id: String, count: int) -> int:
 			continue
 		if slot["item"] != item_id:
 			continue
-		var space := stack_max - slot["count"]
+		var space: int = stack_max - (slot["count"] as int)
 		if space <= 0:
 			continue
-		var add := min(space, remaining)
-		slot["count"] += add
+		var add: int = min(space, remaining)
+		slot["count"] = (slot["count"] as int) + add
 		remaining -= add
 		if remaining <= 0:
 			break
@@ -43,7 +46,7 @@ func add_item(item_id: String, count: int) -> int:
 			var slot: Dictionary = player_state.inventory[i]
 			if not slot.is_empty():
 				continue
-			var add := min(stack_max, remaining)
+			var add: int = min(stack_max, remaining)
 			player_state.inventory[i] = { "item": item_id, "count": add }
 			remaining -= add
 			if remaining <= 0:
@@ -64,7 +67,7 @@ func remove_item(item_id: String, count: int) -> bool:
 		var slot: Dictionary = player_state.inventory[i]
 		if slot.is_empty() or slot["item"] != item_id:
 			continue
-		var take := min(slot["count"], remaining)
+		var take: int = min(slot["count"] as int, remaining)
 		slot["count"] -= take
 		remaining -= take
 		if slot["count"] <= 0:

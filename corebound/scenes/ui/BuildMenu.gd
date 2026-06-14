@@ -40,7 +40,7 @@ func _refresh_list() -> void:
 			continue
 		found_any = true
 		var def := CraftingManager.get_item_definition(machine_id)
-		var name_str := machine_id if def == null else def.display_name
+		var name_str: String = machine_id if def == null else def.display_name
 
 		var btn := Button.new()
 		btn.text = "%s  [%d]" % [name_str, count]
