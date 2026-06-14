@@ -174,5 +174,111 @@
     "machine_type": "hand",
     "craft_time": 3.0,
     "tech_required": ""
+  },
+  {
+    "id": "mining_drill_mk1",
+    "display_name": "Mining Drill Mk1",
+    "output_item": "mining_drill_mk1",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 5 },
+      { "item": "gear", "count": 3 },
+      { "item": "stone", "count": 8 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 5.0,
+    "tech_required": ""
+  },
+  {
+    "id": "conveyor_belt",
+    "display_name": "Conveyor Belt",
+    "output_item": "conveyor_belt",
+    "output_count": 5,
+    "inputs": [
+      { "item": "iron_plate", "count": 1 },
+      { "item": "gear", "count": 1 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 1.0,
+    "tech_required": ""
+  },
+  {
+    "id": "stone_furnace",
+    "display_name": "Stone Furnace",
+    "output_item": "stone_furnace",
+    "output_count": 1,
+    "inputs": [
+      { "item": "stone", "count": 8 },
+      { "item": "clay", "count": 4 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "wooden_chest",
+    "display_name": "Wooden Chest",
+    "output_item": "wooden_chest",
+    "output_count": 1,
+    "inputs": [
+      { "item": "wood", "count": 8 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 2.0,
+    "tech_required": ""
+  },
+  {
+    "id": "iron_chest",
+    "display_name": "Iron Chest",
+    "output_item": "iron_chest",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 8 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 3.0,
+    "tech_required": ""
+  },
+  {
+    "id": "coal_generator",
+    "display_name": "Coal Generator",
+    "output_item": "coal_generator",
+    "output_count": 1,
+    "inputs": [
+      { "item": "stone", "count": 6 },
+      { "item": "iron_plate", "count": 4 },
+      { "item": "gear", "count": 2 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 5.0,
+    "tech_required": ""
+  },
+  {
+    "id": "electric_furnace",
+    "display_name": "Electric Furnace",
+    "output_item": "electric_furnace",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 6 },
+      { "item": "circuit_board", "count": 2 },
+      { "item": "brick", "count": 4 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 5.0,
+    "tech_required": "shallow_tech"
+  },
+  {
+    "id": "assembler_mk1",
+    "display_name": "Assembler Mk1",
+    "output_item": "assembler_mk1",
+    "output_count": 1,
+    "inputs": [
+      { "item": "iron_plate", "count": 8 },
+      { "item": "gear", "count": 4 },
+      { "item": "circuit_board", "count": 4 }
+    ],
+    "machine_type": "hand",
+    "craft_time": 5.0,
+    "tech_required": "shallow_tech"
   }
 ]

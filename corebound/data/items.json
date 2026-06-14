@@ -298,5 +298,105 @@
     "fuel_value": 0.0,
     "description": "An iron pickaxe. Efficient against harder rock layers.",
     "color": { "r": 0.65, "g": 0.45, "b": 0.40, "a": 1.0 }
+  },
+  {
+    "id": "mining_drill_mk1",
+    "display_name": "Mining Drill Mk1",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Auto-mines the block below it.",
+    "color": { "r": 0.6, "g": 0.4, "b": 0.2, "a": 1.0 }
+  },
+  {
+    "id": "mining_drill_mk2",
+    "display_name": "Mining Drill Mk2",
+    "category": "machine",
+    "tier": 2,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Faster electric drill.",
+    "color": { "r": 0.5, "g": 0.5, "b": 0.7, "a": 1.0 }
+  },
+  {
+    "id": "conveyor_belt",
+    "display_name": "Conveyor Belt",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 50,
+    "fuel_value": 0.0,
+    "description": "Moves items in one direction.",
+    "color": { "r": 0.8, "g": 0.6, "b": 0.1, "a": 1.0 }
+  },
+  {
+    "id": "fast_belt",
+    "display_name": "Fast Belt",
+    "category": "machine",
+    "tier": 2,
+    "stack_max": 50,
+    "fuel_value": 0.0,
+    "description": "3x speed conveyor belt.",
+    "color": { "r": 0.9, "g": 0.8, "b": 0.1, "a": 1.0 }
+  },
+  {
+    "id": "stone_furnace",
+    "display_name": "Stone Furnace",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Smelts ores using coal fuel.",
+    "color": { "r": 0.55, "g": 0.45, "b": 0.35, "a": 1.0 }
+  },
+  {
+    "id": "electric_furnace",
+    "display_name": "Electric Furnace",
+    "category": "machine",
+    "tier": 2,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Fast electric smelter.",
+    "color": { "r": 0.3, "g": 0.55, "b": 0.75, "a": 1.0 }
+  },
+  {
+    "id": "assembler_mk1",
+    "display_name": "Assembler Mk1",
+    "category": "machine",
+    "tier": 2,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Automates component crafting.",
+    "color": { "r": 0.4, "g": 0.65, "b": 0.4, "a": 1.0 }
+  },
+  {
+    "id": "coal_generator",
+    "display_name": "Coal Generator",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 1,
+    "fuel_value": 0.0,
+    "description": "Burns coal to produce 5 kW.",
+    "color": { "r": 0.25, "g": 0.25, "b": 0.25, "a": 1.0 }
+  },
+  {
+    "id": "wooden_chest",
+    "display_name": "Wooden Chest",
+    "category": "machine",
+    "tier": 0,
+    "stack_max": 5,
+    "fuel_value": 0.0,
+    "description": "20-slot item storage.",
+    "color": { "r": 0.6, "g": 0.42, "b": 0.22, "a": 1.0 }
+  },
+  {
+    "id": "iron_chest",
+    "display_name": "Iron Chest",
+    "category": "machine",
+    "tier": 1,
+    "stack_max": 5,
+    "fuel_value": 0.0,
+    "description": "40-slot item storage.",
+    "color": { "r": 0.55, "g": 0.55, "b": 0.6, "a": 1.0 }
   }
 ]
