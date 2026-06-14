@@ -23,6 +23,7 @@ CraftingManager="*res://autoloads/CraftingManager.gd"
 SaveManager="*res://autoloads/SaveManager.gd"
 AudioManager="*res://autoloads/AudioManager.gd"
 InputManager="*res://autoloads/InputManager.gd"
+SettingsManager="*res://autoloads/SettingsManager.gd"
 
 [display]
 

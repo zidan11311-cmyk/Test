@@ -19,6 +19,9 @@ var _build_direction: int = 0
 # Vehicle state
 var _is_mounted: bool = false
 
+# Death state
+var _is_dead: bool = false
+
 # Visual feedback
 var _mine_progress_bar: ColorRect
 var _sprite: ColorRect   # placeholder art: colored rectangle
@@ -76,8 +79,19 @@ func _ready() -> void:
 	if InventoryManager.player_state:
 		global_position = InventoryManager.player_state.position
 
+	# Show tutorial hint for mining on first frame
+	await get_tree().process_frame
+	var tutorial := get_tree().get_first_node_in_group("tutorial")
+	if tutorial:
+		tutorial.show_hint("mine")
+
 func _physics_process(delta: float) -> void:
 	if GameManager.state != GameManager.State.PLAYING:
+		return
+
+	# Death check
+	if InventoryManager.player_state.hp <= 0:
+		_on_player_death()
 		return
 
 	# Skip player movement while mounted in a vehicle
@@ -89,6 +103,7 @@ func _physics_process(delta: float) -> void:
 
 	if InputManager.consume_jump() and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		AudioManager.play_sfx("jump")
 
 	# Update animation before moving
 	_anim_controller.update(delta, velocity, is_on_floor(), _mining_target != Vector2i(-9999, -9999), not visible)
@@ -98,6 +113,7 @@ func _physics_process(delta: float) -> void:
 	# Landing dust effect
 	if not _was_on_floor and is_on_floor():
 		DustParticles.spawn(get_parent(), global_position)
+		AudioManager.play_sfx("land")
 	_was_on_floor = is_on_floor()
 
 	_check_vehicle_interact()
@@ -268,6 +284,36 @@ func _on_block_changed(world_tile: Vector2i, new_tile_id: String) -> void:
 			world_tile.y * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5
 		)
 		MiningParticles.spawn(get_parent(), world_pos, _last_mine_tile_id)
+		# Tutorial: after first block is broken, hint about crafting
+		var tutorial := get_tree().get_first_node_in_group("tutorial")
+		if tutorial:
+			tutorial.show_hint("craft")
+
+func _on_player_death() -> void:
+	if _is_dead:
+		return
+	_is_dead = true
+	visible = false
+	AudioManager.play_sfx("death")
+	SettingsManager.trigger_haptic(50)
+	var game_over := get_tree().get_first_node_in_group("game_over_screen")
+	if game_over:
+		game_over.show_game_over(get_depth_meters())
+
+func take_damage(amount: int) -> void:
+	if _is_dead:
+		return
+	InventoryManager.player_state.hp -= amount
+	InventoryManager.player_state.hp = max(0, InventoryManager.player_state.hp)
+	AudioManager.play_sfx("hurt")
+	SettingsManager.trigger_haptic(20)
+	if _anim_controller:
+		_anim_controller.trigger_hurt()
+
+func respawn() -> void:
+	_is_dead = false
+	visible = true
+	_stop_mining()
 
 func get_depth_meters() -> float:
 	# Each tile is 32px; we define 2.5 tiles = 1 meter (arbitrary but readable)

@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/SettingsScreen.gd" id="1"]
+
+[node name="SettingsScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+visible = false
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -220.0
+offset_right = 220.0
+offset_bottom = 220.0
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 38.0
+horizontal_alignment = 1
+text = "SETTINGS"
+theme_override_font_sizes/font_size = 18
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 46.0
+offset_right = -20.0
+offset_bottom = -50.0
+theme_override_constants/separation = 14
+
+[node name="MasterVBox" type="VBoxContainer" parent="Panel/VBox"]
+[node name="MasterLabel" type="Label" parent="Panel/VBox/MasterVBox"]
+text = "Master Volume"
+[node name="MasterSlider" type="HSlider" parent="Panel/VBox/MasterVBox"]
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MusicVBox" type="VBoxContainer" parent="Panel/VBox"]
+[node name="MusicLabel" type="Label" parent="Panel/VBox/MusicVBox"]
+text = "Music Volume"
+[node name="MusicSlider" type="HSlider" parent="Panel/VBox/MusicVBox"]
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.7
+
+[node name="SFXVBox" type="VBoxContainer" parent="Panel/VBox"]
+[node name="SFXLabel" type="Label" parent="Panel/VBox/SFXVBox"]
+text = "SFX Volume"
+[node name="SFXSlider" type="HSlider" parent="Panel/VBox/SFXVBox"]
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="FPSToggle" type="CheckButton" parent="Panel/VBox"]
+text = "Show FPS"
+[node name="HapticToggle" type="CheckButton" parent="Panel/VBox"]
+text = "Haptic Feedback"
+[node name="ShakeToggle" type="CheckButton" parent="Panel/VBox"]
+text = "Screen Shake"
+button_pressed = true
+
+[node name="CloseButton" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -42.0
+offset_right = 60.0
+offset_bottom = -10.0
+text = "Done"

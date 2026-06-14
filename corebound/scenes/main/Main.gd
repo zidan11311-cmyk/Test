@@ -7,33 +7,86 @@ extends Node
 @onready var machine_screen: Control = $MachineScreen
 @onready var background: ColorRect = $Background
 @onready var vehicle_hud: CanvasLayer = $VehicleHUD
+@onready var main_menu: Control = $MainMenu
+@onready var pause_menu: Control = $PauseMenu
+@onready var settings_screen: Control = $SettingsScreen
+@onready var game_over_screen: Control = $GameOverScreen
+@onready var tutorial_overlay: Control = $TutorialOverlay
+@onready var fps_label: Label = $FPSLabel
 
 var _world_scene: Node = null
 
 func _ready() -> void:
+	add_to_group("main")
 	GameManager.state_changed.connect(_on_state_changed)
 	_connect_hud_buttons()
 
 	# Connect vehicle lifecycle signals for HUD management
 	WorldManager.vehicle_spawned.connect(_on_vehicle_node_spawned)
 
-	# Auto-start a new game for MVP (no main menu yet)
+	# Start on MainMenu — do NOT auto-start a game
 	await get_tree().process_frame
-	_start_new_game()
+	hud.visible = false
+	tutorial_overlay.visible = false
+	pause_menu.visible = false
+	game_over_screen.visible = false
+	settings_screen.visible = false
+	main_menu.visible = true
 
-func _start_new_game() -> void:
+	# Wire MainMenu callbacks
+	if main_menu.has_signal("start_new_game"):
+		main_menu.start_new_game.connect(start_new_game_slot)
+	if main_menu.has_signal("load_game"):
+		main_menu.load_game.connect(load_game_slot)
+
+	# Wire PauseMenu
+	if pause_menu.has_signal("resume_pressed"):
+		pause_menu.resume_pressed.connect(_on_pause_resume)
+	if pause_menu.has_signal("settings_pressed"):
+		pause_menu.settings_pressed.connect(_on_open_settings)
+	if pause_menu.has_signal("main_menu_pressed"):
+		pause_menu.main_menu_pressed.connect(_on_return_to_main_menu)
+
+	# Wire SettingsScreen
+	if settings_screen.has_signal("closed"):
+		settings_screen.closed.connect(_on_settings_closed)
+
+	# Wire GameOverScreen
+	if game_over_screen.has_signal("restart_pressed"):
+		game_over_screen.restart_pressed.connect(_on_game_over_restart)
+	if game_over_screen.has_signal("main_menu_pressed"):
+		game_over_screen.main_menu_pressed.connect(_on_return_to_main_menu)
+
+	# FPS label visibility
+	fps_label.visible = SettingsManager.show_fps
+
+func _process(_delta: float) -> void:
+	if SettingsManager.show_fps:
+		fps_label.visible = true
+		fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
+	else:
+		fps_label.visible = false
+
+# ---------------------------------------------------------------------------
+# Game-slot entry points called by MainMenu
+# ---------------------------------------------------------------------------
+
+func start_new_game_slot(slot: int) -> void:
+	main_menu.visible = false
+	_clear_world()
+
 	WorldManager.world_seed = randi()
 	var world_scene := preload("res://scenes/world/World.tscn").instantiate()
 	_world_scene = world_scene
 	add_child(world_scene)
 	move_child(world_scene, 0)  # Behind UI
 
-	# Initialize player state
 	var ps := PlayerState.new()
 	InventoryManager.initialize(ps)
 
 	GameManager.state = GameManager.State.PLAYING
 	hud.visible = true
+	tutorial_overlay.visible = true
 
 	# Start background music for the surface layer
 	AudioManager.play_music_for_layer("surface")
@@ -44,8 +97,38 @@ func _start_new_game() -> void:
 	build_menu.machine_selected.connect(_on_machine_selected)
 	build_menu.build_cancelled.connect(_on_build_cancelled)
 
+func load_game_slot(slot: int) -> void:
+	main_menu.visible = false
+	_clear_world()
+
+	# Load save data for the given slot
+	SaveManager.load_slot(slot)
+
+	var world_scene := preload("res://scenes/world/World.tscn").instantiate()
+	_world_scene = world_scene
+	add_child(world_scene)
+	move_child(world_scene, 0)
+
+	GameManager.state = GameManager.State.PLAYING
+	hud.visible = true
+
+	AudioManager.play_music_for_layer("surface")
+
+	await build_menu.ready
+	await machine_screen.ready
+	build_menu.machine_selected.connect(_on_machine_selected)
+	build_menu.build_cancelled.connect(_on_build_cancelled)
+
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+
+func _clear_world() -> void:
+	if _world_scene:
+		_world_scene.queue_free()
+		_world_scene = null
+
 func _connect_hud_buttons() -> void:
-	# Connect after HUD is ready
 	await hud.ready
 	if hud.has_node("JumpButton"):
 		hud.get_node("JumpButton").pressed.connect(_on_jump_button)
@@ -94,16 +177,58 @@ func _on_build_cancelled() -> void:
 	if player:
 		player.exit_build_mode()
 
+# ---------------------------------------------------------------------------
+# State transitions
+# ---------------------------------------------------------------------------
+
 func _on_state_changed(new_state: GameManager.State) -> void:
 	match new_state:
 		GameManager.State.PLAYING:
 			hud.visible = true
+			pause_menu.visible = false
+			game_over_screen.visible = false
+			main_menu.visible = false
 		GameManager.State.PAUSED:
-			pass
+			pause_menu.visible = true
+		GameManager.State.GAME_OVER:
+			hud.visible = false
+			pause_menu.visible = false
+			tutorial_overlay.visible = false
+			game_over_screen.visible = true
 		GameManager.State.MAIN_MENU:
-			if _world_scene:
-				_world_scene.queue_free()
-				_world_scene = null
+			_clear_world()
+			hud.visible = false
+			pause_menu.visible = false
+			game_over_screen.visible = false
+			tutorial_overlay.visible = false
+			settings_screen.visible = false
+			main_menu.visible = true
+
+# ---------------------------------------------------------------------------
+# Pause / Settings / GameOver / MainMenu callbacks
+# ---------------------------------------------------------------------------
+
+func _on_pause_resume() -> void:
+	GameManager.state = GameManager.State.PLAYING
+	pause_menu.visible = false
+
+func _on_open_settings() -> void:
+	settings_screen.visible = true
+
+func _on_settings_closed() -> void:
+	settings_screen.visible = false
+	fps_label.visible = SettingsManager.show_fps
+
+func _on_return_to_main_menu() -> void:
+	GameManager.state = GameManager.State.MAIN_MENU
+
+func _on_game_over_restart() -> void:
+	game_over_screen.visible = false
+	start_new_game_slot(0)
+
+# ---------------------------------------------------------------------------
+# Vehicle HUD
+# ---------------------------------------------------------------------------
 
 func _on_vehicle_node_spawned(_ignored, vs: VehicleState) -> void:
 	# Wait a frame so World._on_vehicle_spawned has run and added the node
@@ -125,6 +250,10 @@ func _on_vehicle_node_spawned(_ignored, vs: VehicleState) -> void:
 		vehicle_node.player_dismounted.connect(func(_player):
 			vehicle_hud.hide_vehicle_hud()
 		)
+
+# ---------------------------------------------------------------------------
+# Debug helpers
+# ---------------------------------------------------------------------------
 
 # Spawns a vehicle near the player based on an item_id string.
 # Useful for debug/testing. Call from the console or a debug button.

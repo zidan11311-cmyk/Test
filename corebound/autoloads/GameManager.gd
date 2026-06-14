@@ -37,9 +37,14 @@ func resume() -> void:
 		get_tree().paused = false
 		_set_state(State.PLAYING)
 
+func game_over() -> void:
+	_set_state(State.GAME_OVER)
+
 func return_to_menu() -> void:
 	SaveManager.save(current_save_slot)
 	get_tree().paused = false
+	WorldManager.world_seed = 0
+	WorldManager.vehicles.clear()
 	_set_state(State.MAIN_MENU)
 
 func _set_state(new_state: State) -> void:

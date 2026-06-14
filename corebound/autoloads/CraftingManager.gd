@@ -83,9 +83,11 @@ func craft(recipe_id: String, count: int = 1) -> bool:
 	var recipe: Recipe = _recipes.get(recipe_id)
 	if recipe == null:
 		emit_signal("crafting_failed", recipe_id, "Recipe not found")
+		AudioManager.play_sfx("craft_fail")
 		return false
 	if not _is_tech_unlocked(recipe.tech_required):
 		emit_signal("crafting_failed", recipe_id, "Tech not unlocked")
+		AudioManager.play_sfx("craft_fail")
 		return false
 
 	# Check if all ingredients are available x count
@@ -94,6 +96,7 @@ func craft(recipe_id: String, count: int = 1) -> bool:
 		var needed: int = input["count"] * count
 		if counts.get(input["item"], 0) < needed:
 			emit_signal("crafting_failed", recipe_id, "Insufficient materials")
+			AudioManager.play_sfx("craft_fail")
 			return false
 
 	# Deduct ingredients
@@ -103,6 +106,12 @@ func craft(recipe_id: String, count: int = 1) -> bool:
 	# Add output
 	InventoryManager.add_item(recipe.output_item, recipe.output_count * count)
 	emit_signal("crafting_completed", recipe_id, count)
+	AudioManager.play_sfx("craft_done")
+	SettingsManager.trigger_haptic(10)
+	# Show tutorial hint after first craft
+	var tutorial := Engine.get_main_loop().get_first_node_in_group("tutorial") if Engine.get_main_loop() is SceneTree else null
+	if tutorial:
+		tutorial.show_hint("build")
 	return true
 
 func get_recipe(id: String) -> Recipe:
