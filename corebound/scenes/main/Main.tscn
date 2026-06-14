@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scenes/main/Main.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/CraftingScreen.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/ui/BuildMenu.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/ui/MachineScreen.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/ui/VehicleHUD.tscn" id="7"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1")
@@ -24,3 +25,5 @@ color = Color(0.05, 0.05, 0.08, 1.0)
 [node name="BuildMenu" parent="." instance=ExtResource("5")]
 
 [node name="MachineScreen" parent="." instance=ExtResource("6")]
+
+[node name="VehicleHUD" parent="." instance=ExtResource("7")]

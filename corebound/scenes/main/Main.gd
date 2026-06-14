@@ -6,12 +6,16 @@ extends Node
 @onready var build_menu: Control = $BuildMenu
 @onready var machine_screen: Control = $MachineScreen
 @onready var background: ColorRect = $Background
+@onready var vehicle_hud: CanvasLayer = $VehicleHUD
 
 var _world_scene: Node = null
 
 func _ready() -> void:
 	GameManager.state_changed.connect(_on_state_changed)
 	_connect_hud_buttons()
+
+	# Connect vehicle lifecycle signals for HUD management
+	WorldManager.vehicle_spawned.connect(_on_vehicle_node_spawned)
 
 	# Auto-start a new game for MVP (no main menu yet)
 	await get_tree().process_frame
@@ -97,6 +101,51 @@ func _on_state_changed(new_state: GameManager.State) -> void:
 			if _world_scene:
 				_world_scene.queue_free()
 				_world_scene = null
+
+func _on_vehicle_node_spawned(_ignored, vs: VehicleState) -> void:
+	# Wait a frame so World._on_vehicle_spawned has run and added the node
+	await get_tree().process_frame
+	if _world_scene == null:
+		return
+	if not _world_scene.has_method("get_vehicle_node"):
+		return
+	var vehicle_node: Node = _world_scene.get_vehicle_node(vs)
+	if vehicle_node == null:
+		return
+
+	# Connect mount/dismount signals to show/hide the vehicle HUD (rideable vehicles only)
+	if vehicle_node.has_signal("player_mounted"):
+		vehicle_node.player_mounted.connect(func(_player):
+			vehicle_hud.show_vehicle_hud(vehicle_node)
+		)
+	if vehicle_node.has_signal("player_dismounted"):
+		vehicle_node.player_dismounted.connect(func(_player):
+			vehicle_hud.hide_vehicle_hud()
+		)
+
+# Spawns a vehicle near the player based on an item_id string.
+# Useful for debug/testing. Call from the console or a debug button.
+func spawn_vehicle_from_item(item_id: String) -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	var spawn_pos := Vector2.ZERO
+	if player:
+		spawn_pos = player.global_position + Vector2(3 * Constants.TILE_SIZE, 0)
+
+	var vs := VehicleState.new()
+	vs.position = spawn_pos
+
+	match item_id:
+		"mining_cart":
+			vs.vehicle_type = VehicleState.VehicleType.MINING_CART
+		"drill_vehicle":
+			vs.vehicle_type = VehicleState.VehicleType.DRILL_VEHICLE
+		"hover_vehicle":
+			vs.vehicle_type = VehicleState.VehicleType.HOVER_VEHICLE
+		_:
+			push_warning("Main.spawn_vehicle_from_item: unknown item_id '%s'" % item_id)
+			return
+
+	WorldManager.spawn_vehicle(vs)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):

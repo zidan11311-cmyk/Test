@@ -37,7 +37,7 @@ func save(slot: int) -> void:
 		"world_seed": WorldManager.world_seed,
 		"player": InventoryManager.player_state.serialize() if InventoryManager.player_state else {},
 		"chunks": WorldManager.serialize_loaded_chunks(),
-		"vehicles": WorldManager.serialize_vehicles(),
+		"vehicles": _serialize_vehicles(),
 	}
 
 	var path := SAVE_DIR + "slot_%d.json" % slot
@@ -48,6 +48,12 @@ func save(slot: int) -> void:
 	file.store_string(JSON.stringify(data, "\t"))
 	file.close()
 	emit_signal("save_completed")
+
+func _serialize_vehicles() -> Array:
+	var result := []
+	for vs in WorldManager.vehicles:
+		result.append(vs.serialize())
+	return result
 
 func load_game(slot: int) -> void:
 	emit_signal("load_started")
@@ -78,7 +84,10 @@ func load_game(slot: int) -> void:
 	WorldManager.load_from_save(chunks_data)
 
 	var vehicles_data: Array = data.get("vehicles", [])
-	WorldManager.load_vehicles_from_save(vehicles_data)
+	WorldManager.vehicles.clear()
+	for vd in vehicles_data:
+		var vs := VehicleState.deserialize(vd)
+		WorldManager.spawn_vehicle(vs)
 
 	emit_signal("load_completed")
 

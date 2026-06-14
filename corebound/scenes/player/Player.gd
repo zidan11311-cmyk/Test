@@ -16,6 +16,9 @@ var _build_mode: bool = false
 var _build_machine_type: String = ""
 var _build_direction: int = 0
 
+# Vehicle state
+var _is_mounted: bool = false
+
 # Visual feedback
 var _mine_progress_bar: ColorRect
 var _sprite: ColorRect   # placeholder art: colored rectangle
@@ -63,6 +66,10 @@ func _physics_process(delta: float) -> void:
 	if GameManager.state != GameManager.State.PLAYING:
 		return
 
+	# Skip player movement while mounted in a vehicle
+	if not visible:
+		return
+
 	_apply_gravity(delta)
 	_apply_movement()
 
@@ -70,6 +77,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = JUMP_VELOCITY
 
 	move_and_slide()
+	_check_vehicle_interact()
 	_update_depth_tracking()
 	_tick_mining(delta)
 	_update_camera_chunks()
@@ -96,6 +104,38 @@ func _update_depth_tracking() -> void:
 	if depth_tiles > InventoryManager.player_state.depth_reached_tiles:
 		InventoryManager.player_state.depth_reached_tiles = depth_tiles
 		emit_signal("depth_changed", depth_tiles)
+
+func _check_vehicle_interact() -> void:
+	# Already mounted — nothing to do here
+	if not visible:
+		return
+
+	if not Input.is_action_just_pressed("interact"):
+		return
+
+	var nearest := _find_nearest_vehicle()
+	if nearest == null:
+		return
+
+	# DrillVehicle / HoverVehicle: mount the player
+	if nearest.has_method("mount"):
+		nearest.mount(self)
+	# MiningCart: open its inventory (if it supports it)
+	elif nearest.has_method("open_inventory"):
+		nearest.open_inventory()
+
+func _find_nearest_vehicle() -> Node:
+	var interact_range := 2.0 * Constants.TILE_SIZE
+	var best_node: Node = null
+	var best_dist := interact_range + 1.0
+
+	for vehicle in get_tree().get_nodes_in_group("vehicles"):
+		var dist := global_position.distance_to(vehicle.global_position)
+		if dist <= interact_range and dist < best_dist:
+			best_dist = dist
+			best_node = vehicle
+
+	return best_node
 
 func _on_tap_world(world_pos: Vector2) -> void:
 	if _build_mode:
