@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+  h1, h2, h3 { @apply font-semibold; }
+}
+
+@layer components {
+  .section-block {
+    @apply whitespace-pre-wrap text-sm leading-relaxed text-gray-700;
+  }
+  .pill-tag {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+}
